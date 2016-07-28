@@ -13,7 +13,6 @@ const usersSchema = new Schema({
   
    // example of optional fields
   name:      { type: String },
-  products: { type: [String], default: [] }
   createdAt: { type: Date, default: Date.now }
 
 })
@@ -28,7 +27,8 @@ const productSchema = new Schema({
 	price: {type: Number, required: true},
 	imageUrl: {type: String},
 	tags: {type: [String], default: []},
-	authorId: {type: String, required: true},
+	userId: {type: String, required: true},
+  userEmail: {type: String, required: true},
 	likesCount: {type: Number},
 })
 

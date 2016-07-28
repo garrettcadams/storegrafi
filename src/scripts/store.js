@@ -4,7 +4,8 @@ import {InstaModel, InstaCollection} from './models/models'
 
 const IG_STORE = _.extend(Backbone.Events, {
 	data: {
-		collection: new InstaCollection()
+		productColl: new InstaCollection(),
+		allPhotos: []
 	},
 
 	emitChange: function() {
@@ -15,23 +16,23 @@ const IG_STORE = _.extend(Backbone.Events, {
 		return _.clone(this.data)
 	},
 
-	setStore: function(storeProp, payload) {
+	set: function(key, val) {
 		// Check to make sure your store has morals (doesn't accept just any inputs...)
-		if (typeof this.data[storeProp] === 'undefined') {
-			throw Error(`${storeProp} property not on the store, make sure to declare`)
+		if (this.data[key] === undefined) {
+			throw Error(`${key} property not on the STORE, make sure to declare`)
 		}
 
-		this.data[storeProp] = payload
-		this._emitChange
+		this.data[key] = val
+		this.emitChange()
 	},
 
 	initialize: function(){
 		// Start listening (pub/sub) from the very get-go, so with any sync/update, emitChange
 		// function will fire
-		this.data.collection.on('sync update', this._emitChange.bind(this))
+		this.data.productColl.on('sync update', this.emitChange.bind(this))
 	}
 })
 
-IG_STORE._initialize()
+IG_STORE.initialize()
 
 export default IG_STORE

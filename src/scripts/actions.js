@@ -1,4 +1,16 @@
 import {User} from './models/models'
+import {InstaModel, InstaCollection} from './models/models'
+import IG_STORE from './store'
+import hello from 'hellojs'
+import Backbone from 'backbone'
+
+// Intializing hello function for Instagram authorization
+hello.init({
+    instagram : "34e9f619c5e3475492e7b2d75f2a9f26"
+    },{
+        redirect_uri:'http://localhost:3000'
+    });
+
 
 const ACTIONS = {
 
@@ -34,45 +46,74 @@ const ACTIONS = {
         )
     },
 
-    saveDish: function(dishObj) {
-    	var dish = new DishModel(dishObj) 
-    	dish.save().then(
+    saveProducts: function() {
+        console.log('incoming payload array:')
+    	var products = IG_STORE.data.productColl
+    	Backbone.sync("create", products).then(
     		(responseData) => {
-    			alert('dish saved!')
+    			alert('products saved!')
     			console.log(responseData)
     		},
     		(err) => {
-    			alert('problem was happened!')
+    			alert('oh noes! no products for you...')
     			console.log(err)
     		})
     },
 
-    fetchDishes: function(tags){
-    	DISH_STORE.data.collection.fetch({
-			data: {
-				tags: tags
-			}
-    		
-    	})
+
+    saveProduct: function(prodObj) {
+        console.log('incoming payload object:', prodObj)
+        // var dish = new DishModel(dishObj) 
+        // dish.save().then(
+        var product = new InstaModel(prodObj)
+        product.save().then(
+            (responseData) => {
+                alert('products saved!')
+                console.log(responseData)
+            },
+            (err) => {
+                alert('oh noes! no products for you...')
+                console.log(err)
+            })
     },
 
-    likeDish: function(dish, userObj){
-    	// modify dish, adding user ID to the likes
-    	// save dish to the server
-    	// dish.get('likes').push(userObj._id)
-    	dish.set({
-    		likes: dish.get('likes').concat(userObj._id)
-    	})
+       
+    profileHandler: function(r){
+        var profile = document.getElementById('profile');
 
-    	// dish.save().then((responseData)=>{
-    	// 	let dishCollCopy = new DishCollection(DISH_STORE.data.collection.models)
-    	// 	dishCollCopy._byId[dish.id].set(responseData)
-    	// 	DISH_STORE._setStore('collection', dishCollCopy)
-    	// })
-    	dish.save()
+        profile.innerHTML = "<img src='"+ r.thumbnail + "' width=24/>Connected to instagram as " + r.name;
+    },
 
-    	DISH_STORE.data.collection.fetch()
-    }
+    errorHandler: function(){
+        console.log('shit just hit the fan... (ie there was an error)')
+    },
+
+    photosHandler: function(apiResponse){
+        
+
+        var photosArray = apiResponse.data  
+        console.log('photos array >>>', photosArray)
+
+        IG_STORE.set('allPhotos', photosArray) 
+        
+    },
+
+    linkToInsta: function(){
+        // Define an instagram instance
+        var instagram = hello( 'instagram' );
+
+        // Trigger login to instagram
+        instagram.login().then(()=>{
+
+            // Get Profile
+            instagram.api('me').then(this.profileHandler, this.errorHandler);
+
+            // Get user photos
+            instagram.api('me/photos').then(this.photosHandler, this.errorHandler );
+
+        }, this.errorHandler);
+    },
+
 }
 
 export default ACTIONS

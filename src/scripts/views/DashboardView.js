@@ -1,6 +1,5 @@
 // import core libraries
 import React from 'react'
-import hello from 'hellojs'
 // import $ from 'jquery'
 // import Bootstrap from 'bootstrap'
 
@@ -8,43 +7,33 @@ import hello from 'hellojs'
 import MainMenu from './MainMenu'
 
 //import models
-import {User} from '../models/models'
-
-var selectedProducts = []
-
-// HelloJS modules needed for Instagram authorization
-hello.init({
-	instagram : "34e9f619c5e3475492e7b2d75f2a9f26"
-	},{
-		redirect_uri:'http://localhost:3000/#dashboard'
-	});
-
-hello.on('auth.login', function(auth) {
-	window.auth = auth
-	window.insta = hello(auth.network)
-
-	// Call user information, for the given network
-	hello(auth.network).api('me').then(function(r) {
-	// 	// Inject it into the container
-	// 	var label = document.getElementById('profile_' + auth.network);
-	// 	if (!label) {
-	// 		label = document.createElement('div');
-	// 		label.id = 'profile_' + auth.network;
-	// 		document.getElementById('profile').appendChild(label);
-	// 	}
-	// 	label.innerHTML = '<img src="' + r.thumbnail + '" /> Hey ' + r.name;
-	});
-});
+import {User, InstaModel, InstaCollection} from '../models/models'
+import ACTIONS from '../actions.js'
+import IG_STORE from '../store.js'
 
 
 const DashboardView = React.createClass ({
+
+	getInitialState: function(){
+		return IG_STORE.getData()
+	},
+
+	componentWillMount: function(){
+		IG_STORE.on('updateContent', ()=>{
+			this.setState(IG_STORE.getData())
+		})
+	},
+
+	componentWillUnmount: function() {
+		IG_STORE.off('updateContent')
+	},
+
 	render: function(){
-		console.log('current user:', User.getCurrentUser())
 		return(
 				<div className="dashboard container">
 					<h1>Dashboard</h1>
 					<MainMenu />
-					<InstaConnect />
+					<InstaConnect productColl={this.state.productColl} allPhotos={this.state.allPhotos} />
 
 				</div>
 			)
@@ -52,45 +41,9 @@ const DashboardView = React.createClass ({
 })
 
 const InstaConnect = React.createClass ({
-	getInitialState: function(){
-		return {
-			photoList: []
-		}
-	},
 
-	_profileHandler: function(r){
-		var profile = document.getElementById( 'profile' );
-
-		profile.innerHTML = "<img src='"+ r.thumbnail + "' width=24/>Connected to instagram as " + r.name;
-	},
-
-	_errorHandler: function(){
-		console.log('shit just hit the fan... (ie there was an error)')
-	},
-
-	_photosHandler: function(apiResponse){
-		var photosArray = apiResponse.data	
-		console.log('apiresponse data insta >>>', photosArray)	
-		
-		this.setState({
-			photoList: photosArray
-		})
-	},
-
-	_linkToInsta: function(){
-		// Define an instagram instance
-		var instagram = hello( 'instagram' );
-
-		// Trigger login to instagram
-		instagram.login().then(()=>{
-
-			// Get Profile
-			instagram.api('me').then(this._profileHandler, this._errorHandler);
-
-			// Get user photos
-			instagram.api('me/photos').then(this._photosHandler, this._errorHandler );
-
-		}, this._errorHandler);
+	_instaHandler: function() {
+		ACTIONS.linkToInsta()
 	},
 
 	render: function(){
@@ -100,11 +53,11 @@ const InstaConnect = React.createClass ({
 					<div id="result"></div>
 					
 					<p>Connect to your Instagram profile by clicking the button below</p>
-					<button className="btn btn-default" onClick={this._linkToInsta}>Connect with Instagram</button>
+					<button className="btn btn-default" onClick={this._instaHandler}>Connect with Instagram</button>
 					
 					<hr/>
 
-					<PhotoContainer photoList={this.state.photoList} />
+					<PhotoContainer allPhotos={this.props.allPhotos} productColl={this.props.productColl} />
 				</div>
 			)
 	}
@@ -113,15 +66,18 @@ const InstaConnect = React.createClass ({
 var PhotoContainer = React.createClass ({
 	
 	_handleSave: function(e){
-		console.log('About to save new array>>>', selectedProducts)
+		
+		ACTIONS.saveProducts()
+		// location.hash = "myproducts"
+		
 	},
 
 	render: function (){
 		return (
 			<div className="photo-container-list">
 				<h2>The queried photos</h2>
-				{this.props.photoList.map((photo, i)=><SinglePhoto singlePhoto={photo} key={i} />)}
-				<button onClick={this._handleSave}>Save as products</button>
+				{this.props.allPhotos.map((photo, i)=><SinglePhoto singlePhoto={photo} key={i} />)}
+				<button className="btn btn-default" onClick={this._handleSave}>Save and continue</button>
 			</div>
 		)
 	}
@@ -129,31 +85,41 @@ var PhotoContainer = React.createClass ({
 
 var SinglePhoto = React.createClass ({
 
+	cid: null,
+
 	_getSelectedPhotos: function(e){
-		console.log('checked input?', e.target.checked)
 
-		var selectedPic = e.target.checked
-		
-		// if checkbox is selected, add object to array
-		if (selectedPic){
-			
-			selectedProducts.push(this.props.singlePhoto)
-			console.log('YES, add this photo...')
+		if (e.target.checked){
+			ACTIONS.saveProduct({
+			title: "Your product title",
+			description: "Your product description",
+			price: 0,
+			imageUrl: this.props.singlePhoto.images.standard_resolution.url,
+			tags: this.props.singlePhoto.images.tags,
+			userId: User.getCurrentUser()._id,
+			userEmail: User.getCurrentUser().email,
+			likesCount: this.props.singlePhoto.likes.count,
+			})
 		}
 
-		// otherwise, remove object from array
 		else {
-
-			selectedProducts.splice(selectedProducts.indexOf(this.props.singlePhoto), 1)
-			console.log('NO, do not add this photo...')
+			ACTIONS.deleteProduct()
 		}
 
-		console.log('New products array is now:', selectedProducts)
+		
+		// if (e.target.checked){
+		// 	this.cid = IG_STORE.data.productColl.add(this.props.singlePhoto).cid
+		// }
+
+		// else {
+		// 	IG_STORE.data.productColl.remove(this.cid)
+		// }
+
 	},
 
 	render: function(){
 		return (
-				<div className="col-md-4 johnnyboy">
+				<div className="col-md-4">
 					<img src={this.props.singlePhoto.images.standard_resolution.url} />
 					<input type="checkbox" onClick={this._getSelectedPhotos} />
 				</div>
