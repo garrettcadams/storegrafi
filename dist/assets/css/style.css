@@ -1,1 +1,1 @@
-*{font-family:Helvetica, Arial, sans-serif;box-sizing:border-box}h1{font-size:100px;text-align:center;color:fuchsia}img{max-width:100%}.container{padding-bottom:50px}.myproducts-table th.product-image{width:20%}.myproducts-table,.myproducts-table th.product-title{width:70%}.myproducts-table,.myproducts-table th.product-price{width:10%}
+*{font-family:Helvetica, Arial, sans-serif;box-sizing:border-box}h1{font-size:100px;text-align:center;color:fuchsia}img{max-width:100%}.container{padding-bottom:50px}.myproducts-table tr.product-row{cursor:pointer}

@@ -21,15 +21,7 @@ img {
 
 .myproducts-table {
 
-	th.product-image {
-		width: 20%
-	},
-
-	th.product-title {
-		width: 70%
-	},
-
-	th.product-price {
-		width: 10%
+	tr.product-row {
+		cursor: pointer;
 	}
 }

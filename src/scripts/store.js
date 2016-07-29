@@ -5,6 +5,7 @@ import {ProductModel, ProductCollection, InstaCollection} from './models/models'
 const IG_STORE = _.extend(Backbone.Events, {
 	data: {
 		productColl: new ProductCollection(),
+		singleProd: new ProductModel(),
 		allPhotos: new InstaCollection(),
 	},
 
@@ -31,6 +32,7 @@ const IG_STORE = _.extend(Backbone.Events, {
 		// function will fire
 		this.data.productColl.on('sync update', this.emitChange.bind(this))
 		this.data.allPhotos.on('sync update', this.emitChange.bind(this))
+		this.data.singleProd.on('sync update', this.emitChange.bind(this))
 	}
 })
 

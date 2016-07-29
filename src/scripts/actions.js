@@ -72,10 +72,28 @@ const ACTIONS = {
                 toastr.info(`Instagram Record: <${singleProduct.get('igId')}> deleted!`)
                 console.log(responseData)
                 console.log('new collection after delete:', IG_STORE.data.productColl)
-
             },
             (err) => {
-                alert('oh noes! no products for you...')
+                toastr.error('oh noes! no products for you...')
+                console.log(err)
+            })
+    },
+
+    fetchUserProducts: function(){
+        IG_STORE.data.productColl.fetch()
+    },
+
+     fetchSingleProduct: function(id){
+        console.log('id from url', id)
+        IG_STORE.data.singleProd.fetch({
+            url: 'api/myproducts/' + id
+        }).then(
+            (responseData) => {
+                toastr.info('single product fetched!')
+                console.log(responseData)
+            },
+            (err) => {
+                toastr.error('oh noes! no product for you...')
                 console.log(err)
             })
     },

@@ -50,11 +50,33 @@ apiRouter.get('/products', function(req, res) {
     Product.find(req.query, function(error, records){  
         if(error) {
             res.send(error)
+        }    
+        res.json(records)
+    })
+})
+
+// Get all user products
+apiRouter.get('/myproducts', function(req, res) {
+    if (req.user){ // check to see if there is a logged in user
+      console.log('current user ID to get filtered>>>', req.user._id)
+      Product.find({userId: req.user._id}, function(error, records){
+        if(error) {
+            res.send(error)
         }
         
         res.json(records)
-        
-    })
+      }) 
+    }
+})
+
+// Get user products by ID
+apiRouter.get('/myproducts/:_id',function(req,res) {
+  Product.findById(req.params._id, function(error,record) {
+    if(error) {
+      res.send(error)
+    }
+    res.json(record)
+  })
 })
 
 // Post new product

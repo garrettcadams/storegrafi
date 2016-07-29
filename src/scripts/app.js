@@ -9,11 +9,12 @@ import DashboardView from './views/DashboardView'
 import HomeView from './views/HomeView'
 import LoginView from './views/LoginView'
 import MyProductsView from './views/MyProductsView'
+import SingleProductView from './views/SingleProductView'
 
 //import models
 import {User} from './models/models'
 
-console.log('YOLO113')
+console.log('YOLO136')
 
 const app = function() {
   const AppRouter = Backbone.Router.extend ({
@@ -22,32 +23,27 @@ const app = function() {
   		'dashboard':'handleDashboard',
   		'login':'handleLogin',
   		'myproducts':'handleMyProducts',
-  		'products/:id':'handleSingleView'
+  		'myproducts/:id':'handleSingleView',
   		'*redirect':'handleRedirect'
   	},
 
   	handleHome: function(){
-  		console.log('YOU ARE HERE >>> HOME')
   		ReactDOM.render(<HomeView />, document.querySelector('.container'))
   	},
 
   	handleDashboard: function(){
-  		console.log('YOU ARE HERE >>> DASHBOARD')
   		ReactDOM.render(<DashboardView />, document.querySelector('.container'))
   	},
 
   	handleMyProducts: function(){
-  		console.log('YOU ARE HERE >>> MY PRODUCTS')
   		ReactDOM.render(<MyProductsView />, document.querySelector('.container'))
   	},
 
-  	handleSingleView: function(){
-  		console.log('YOU ARE HERE >>> SINGLE VIEW')
-  		ReactDOM.render(<SingleProductView />, document.querySelector('.container'))
+  	handleSingleView: function(id){
+  		ReactDOM.render(<SingleProductView id={id} />, document.querySelector('.container'))
   	},
 
   	handleLogin: function(){
-  		console.log('YOU ARE HERE >>> LOGIN')
   		ReactDOM.render(<LoginView />, document.querySelector('.container'))
   	},
 

@@ -3,13 +3,13 @@ import $ from 'jquery'
 import {app_name} from '../app'
 
 const ProductModel = Backbone.Model.extend({
-	urlRoot: '/api/products',
+	urlRoot: '/api/myproducts',
 	idAttribute: '_id'
 })
 
 const ProductCollection = Backbone.Collection.extend({
 	model: ProductModel,
-	url: '/api/products'
+	url: '/api/myproducts'
 })
 
 const InstaCollection = Backbone.Collection.extend({

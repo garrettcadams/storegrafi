@@ -13,6 +13,8 @@ const MyProductsView = React.createClass ({
 	},
 
 	componentWillMount: function(){
+			
+		ACTIONS.fetchUserProducts()
 		IG_STORE.on('updateContent', ()=>{
 			this.setState(IG_STORE.getData())
 		})
@@ -24,8 +26,6 @@ const MyProductsView = React.createClass ({
 
 	render: function(){
 		
-		console.log('PRODCOLL ON MY PRODUCTS VIEW:', this.state.productColl)
-
 		return(
 				<div className="products-wrapper">
 					<h1>My Products View</h1>
@@ -50,7 +50,7 @@ const ProductsContainer = React.createClass ({
 								<th className="product-price">Product Price</th>
 							</tr>
 
-							{this.props.myProducts.map((product)=><SingleProduct product={product} />)}
+							{this.props.myProducts.map((product, i)=><SingleProduct product={product} key={i}/>)}
 						</tbody>
 					</table>
 				</div>
@@ -61,13 +61,13 @@ const ProductsContainer = React.createClass ({
 const SingleProduct = React.createClass ({
 	
 	_handleViewSwitch: function(){
-		location.hash = 'products/' + this.props.product.id
+		location.hash = 'myproducts/' + this.props.product.id
 	},
 
 	render: function(){
-		console.log('product info at bottom level', this.props.product)
+		console.log('single product:', this.props.product)
 		return (
-				<tr onClick={this._handleViewSwitch}>
+				<tr onClick={this._handleViewSwitch} className="product-row">
 					<td><img src={this.props.product.get('imageUrl')} width="50" /></td>
 					<td>{this.props.product.get('title')}</td>
 					<td>{this.props.product.get('price')}</td>
