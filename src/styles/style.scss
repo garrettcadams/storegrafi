@@ -16,3 +16,20 @@ img {
 .container {
 	padding-bottom: 50px;
 }
+
+/* MY PRODUCTS VIEW */
+
+.myproducts-table {
+
+	th.product-image {
+		width: 20%
+	},
+
+	th.product-title {
+		width: 70%
+	},
+
+	th.product-price {
+		width: 10%
+	}
+}

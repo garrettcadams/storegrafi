@@ -13,8 +13,7 @@ import MyProductsView from './views/MyProductsView'
 //import models
 import {User} from './models/models'
 
-console.log('YOLO18')
-
+console.log('YOLO113')
 
 const app = function() {
   const AppRouter = Backbone.Router.extend ({
@@ -23,6 +22,7 @@ const app = function() {
   		'dashboard':'handleDashboard',
   		'login':'handleLogin',
   		'myproducts':'handleMyProducts',
+  		'products/:id':'handleSingleView'
   		'*redirect':'handleRedirect'
   	},
 
@@ -39,6 +39,11 @@ const app = function() {
   	handleMyProducts: function(){
   		console.log('YOU ARE HERE >>> MY PRODUCTS')
   		ReactDOM.render(<MyProductsView />, document.querySelector('.container'))
+  	},
+
+  	handleSingleView: function(){
+  		console.log('YOU ARE HERE >>> SINGLE VIEW')
+  		ReactDOM.render(<SingleProductView />, document.querySelector('.container'))
   	},
 
   	handleLogin: function(){

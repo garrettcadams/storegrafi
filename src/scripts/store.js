@@ -1,11 +1,11 @@
 import Backbone from 'backbone'
 import _ from 'underscore'
-import {InstaModel, InstaCollection} from './models/models'
+import {ProductModel, ProductCollection, InstaCollection} from './models/models'
 
 const IG_STORE = _.extend(Backbone.Events, {
 	data: {
-		productColl: new InstaCollection(),
-		allPhotos: []
+		productColl: new ProductCollection(),
+		allPhotos: new InstaCollection(),
 	},
 
 	emitChange: function() {
@@ -30,6 +30,7 @@ const IG_STORE = _.extend(Backbone.Events, {
 		// Start listening (pub/sub) from the very get-go, so with any sync/update, emitChange
 		// function will fire
 		this.data.productColl.on('sync update', this.emitChange.bind(this))
+		this.data.allPhotos.on('sync update', this.emitChange.bind(this))
 	}
 })
 

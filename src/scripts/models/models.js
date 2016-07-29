@@ -2,14 +2,17 @@ import Backbone from 'backbone'
 import $ from 'jquery'
 import {app_name} from '../app'
 
-const InstaModel = Backbone.Model.extend({
+const ProductModel = Backbone.Model.extend({
 	urlRoot: '/api/products',
 	idAttribute: '_id'
 })
 
-const InstaCollection = Backbone.Collection.extend({
-	model: InstaModel,
+const ProductCollection = Backbone.Collection.extend({
+	model: ProductModel,
 	url: '/api/products'
+})
+
+const InstaCollection = Backbone.Collection.extend({
 })
 
 // ..x..x..x..x..x..x..x..x..x..x..x..x..x..x..x..x..x..x..x..x..x..x
@@ -74,4 +77,4 @@ const User = UserAuthModel.extend({
 	}
 })
 
-export {User, InstaModel, InstaCollection}
+export {User, ProductModel, ProductCollection, InstaCollection}

@@ -1,8 +1,9 @@
 import {User} from './models/models'
-import {InstaModel, InstaCollection} from './models/models'
+import {ProductModel, ProductCollection, InstaCollection} from './models/models'
 import IG_STORE from './store'
 import hello from 'hellojs'
 import Backbone from 'backbone'
+import toastr from 'toastr'
 
 // Intializing hello function for Instagram authorization
 hello.init({
@@ -29,9 +30,9 @@ const ACTIONS = {
     logUserIn: function(email, password) {
         User.login(email, password).then(
             (responseData) => {
-                alert(`user ${email} logged in!`)
+                toastr.success(`user ${email} logged in!`)
                 console.log(responseData)
-                location.hash = 'home' //want the page to re-route to the home page after successfull login
+                location.hash = 'home'
             },
             (error) => {
                 alert('FAILURE LOGGING IN')
@@ -40,36 +41,38 @@ const ACTIONS = {
         )
     },
 
-    logUserOut: function() { // we want the page to reroute to the login page after a user has logged out (server keeps track os user being logged in with a 'session')
+    logUserOut: function() { 
         User.logout().then(
             () => location.hash = 'login'
         )
     },
 
-    saveProducts: function() {
-        console.log('incoming payload array:')
-    	var products = IG_STORE.data.productColl
-    	Backbone.sync("create", products).then(
-    		(responseData) => {
-    			alert('products saved!')
-    			console.log(responseData)
-    		},
-    		(err) => {
-    			alert('oh noes! no products for you...')
-    			console.log(err)
-    		})
+    saveProduct: function(productObj) {
+        let pModel = new ProductModel(productObj)
+        pModel.save().then(
+            (responseData) => {
+                toastr.success(`Instagram Record: <${productObj.igId}> saved!`)
+                console.log(responseData)
+
+                IG_STORE.data.productColl.add(pModel)
+            },
+            (err) => {
+                alert('oh noes! no products for you...')
+                console.log(err)
+            })
     },
 
+    deleteProduct: function(igIdVal){
+        console.log(igIdVal)
+        let singleProduct = IG_STORE.data.productColl.find({igId: igIdVal})
+        console.log('Product to be deleted', singleProduct)
+        singleProduct.destroy().then(
 
-    saveProduct: function(prodObj) {
-        console.log('incoming payload object:', prodObj)
-        // var dish = new DishModel(dishObj) 
-        // dish.save().then(
-        var product = new InstaModel(prodObj)
-        product.save().then(
             (responseData) => {
-                alert('products saved!')
+                toastr.info(`Instagram Record: <${singleProduct.get('igId')}> deleted!`)
                 console.log(responseData)
+                console.log('new collection after delete:', IG_STORE.data.productColl)
+
             },
             (err) => {
                 alert('oh noes! no products for you...')
@@ -90,11 +93,10 @@ const ACTIONS = {
 
     photosHandler: function(apiResponse){
         
-
         var photosArray = apiResponse.data  
         console.log('photos array >>>', photosArray)
 
-        IG_STORE.set('allPhotos', photosArray) 
+        IG_STORE.set('allPhotos', new InstaCollection(photosArray)) 
         
     },
 

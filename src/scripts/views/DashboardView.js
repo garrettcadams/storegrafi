@@ -1,13 +1,11 @@
 // import core libraries
 import React from 'react'
-// import $ from 'jquery'
-// import Bootstrap from 'bootstrap'
 
 // import views
 import MainMenu from './MainMenu'
 
 //import models
-import {User, InstaModel, InstaCollection} from '../models/models'
+import {User, ProductModel, ProductCollection} from '../models/models'
 import ACTIONS from '../actions.js'
 import IG_STORE from '../store.js'
 
@@ -65,11 +63,8 @@ const InstaConnect = React.createClass ({
 
 var PhotoContainer = React.createClass ({
 	
-	_handleSave: function(e){
-		
-		ACTIONS.saveProducts()
-		// location.hash = "myproducts"
-		
+	_handleSave: function(){
+		location.hash = "myproducts"
 	},
 
 	render: function (){
@@ -85,25 +80,26 @@ var PhotoContainer = React.createClass ({
 
 var SinglePhoto = React.createClass ({
 
-	cid: null,
-
 	_getSelectedPhotos: function(e){
 
-		if (e.target.checked){
-			ACTIONS.saveProduct({
-			title: "Your product title",
+		var productInfo = {
+			title: "Tshirt1",
 			description: "Your product description",
 			price: 0,
-			imageUrl: this.props.singlePhoto.images.standard_resolution.url,
-			tags: this.props.singlePhoto.images.tags,
+			igId: this.props.singlePhoto.id,
+			imageUrl: this.props.singlePhoto.get('images').standard_resolution.url,
+			tags: this.props.singlePhoto.get('tags'),
 			userId: User.getCurrentUser()._id,
 			userEmail: User.getCurrentUser().email,
-			likesCount: this.props.singlePhoto.likes.count,
-			})
+			likesCount: this.props.singlePhoto.get('likes').count,
+		}
+
+		if (e.target.checked){
+			ACTIONS.saveProduct(productInfo)
 		}
 
 		else {
-			ACTIONS.deleteProduct()
+			ACTIONS.deleteProduct(this.props.singlePhoto.id)
 		}
 
 		
@@ -120,7 +116,7 @@ var SinglePhoto = React.createClass ({
 	render: function(){
 		return (
 				<div className="col-md-4">
-					<img src={this.props.singlePhoto.images.standard_resolution.url} />
+					<img src={this.props.singlePhoto.get('images').standard_resolution.url} />
 					<input type="checkbox" onClick={this._getSelectedPhotos} />
 				</div>
 			)

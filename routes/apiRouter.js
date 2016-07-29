@@ -45,6 +45,7 @@ apiRouter
 
 // INSTAGRAM PRODUCT ROUTES
 
+// Read all products
 apiRouter.get('/products', function(req, res) {
     Product.find(req.query, function(error, records){  
         if(error) {
@@ -56,7 +57,7 @@ apiRouter.get('/products', function(req, res) {
     })
 })
 
-
+// Post new product
 apiRouter.post('/products', function(req, res){
   console.log(req.body)
   // find out what mongoose method allows us to persist an array of models all at once.
@@ -67,6 +68,17 @@ apiRouter.post('/products', function(req, res){
     }
     res.json(product)
   })
+})
+
+// Delete a product
+apiRouter.delete('/products/:_id', function(req, res){
+  Product.remove({ _id: req.params._id}, (err) => {
+    if(err) return res.json(err)
+    res.json({
+      msg: `record  successfully deleted`,
+      _id: req.params._id
+    })
+  })  
 })
 
 // apiRouter.post('/dishes', function(request, response) {
