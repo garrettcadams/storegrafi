@@ -10,11 +10,12 @@ import HomeView from './views/HomeView'
 import LoginView from './views/LoginView'
 import MyProductsView from './views/MyProductsView'
 import SingleProductView from './views/SingleProductView'
+import UserFrontStore from './views/UserFrontStore'
 
 //import models
 import {User} from './models/models'
 
-console.log('YOLO136')
+console.log('YOLO173')
 
 const app = function() {
   const AppRouter = Backbone.Router.extend ({
@@ -24,41 +25,50 @@ const app = function() {
   		'login':'handleLogin',
   		'myproducts':'handleMyProducts',
   		'myproducts/:id':'handleSingleView',
+      'u/:userName':'handleFrontStore',
+      // 'u/:username/:id':'handleFrontProduct',
   		'*redirect':'handleRedirect'
   	},
 
-  	handleHome: function(){
-  		ReactDOM.render(<HomeView />, document.querySelector('.container'))
-  	},
-
   	handleDashboard: function(){
-  		ReactDOM.render(<DashboardView />, document.querySelector('.container'))
+  		  ReactDOM.render(<DashboardView />, document.querySelector('.container'))
   	},
 
   	handleMyProducts: function(){
-  		ReactDOM.render(<MyProductsView />, document.querySelector('.container'))
+  		  ReactDOM.render(<MyProductsView />, document.querySelector('.container'))
   	},
 
   	handleSingleView: function(id){
-  		ReactDOM.render(<SingleProductView id={id} />, document.querySelector('.container'))
+  		  ReactDOM.render(<SingleProductView id={id} />, document.querySelector('.container'))
   	},
 
   	handleLogin: function(){
-  		ReactDOM.render(<LoginView />, document.querySelector('.container'))
+  		  ReactDOM.render(<LoginView />, document.querySelector('.container'))
   	},
 
+    handleFrontStore: function(userName){
+        ReactDOM.render(<UserFrontStore userName={userName} />, document.querySelector('.container'))
+    },
+
+    // handleFrontProduct: function(){
+    //     ReactDOM.render(<UserFrontProduct />, document.querySelector('.container'))
+    // },
+
   	handleRedirect: function(){
-  		location.hash = 'home'
-  	},
+  	   console.log('REDIRECT TRIGGERED....')
+       location.hash = 'home'
+    },
 
   	initialize: function(){
   		Backbone.history.start()
   		// listen for event on Backbone Router itself
-		this.on('route', function(handlerName){
-			if(!User.getCurrentUser()){
-				location.hash = 'login'
-			}
-		})
+  		//   this.on('route', function(handlerName){
+  		// 	if(!User.getCurrentUser()){
+  		// 		location.hash = 'login'
+  		// 	}
+    //     location.hash = 'dashboard'
+        
+  		// })
   	}
   })
   new AppRouter()

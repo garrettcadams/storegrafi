@@ -3,13 +3,21 @@ import $ from 'jquery'
 import {app_name} from '../app'
 
 const ProductModel = Backbone.Model.extend({
-	urlRoot: '/api/myproducts',
+	urlRoot: '/api/products',
 	idAttribute: '_id'
 })
 
 const ProductCollection = Backbone.Collection.extend({
 	model: ProductModel,
-	url: '/api/myproducts'
+	url: '/api/products'
+})
+
+const FrontProductModel = Backbone.Model.extend({
+})
+
+const FrontStoreCollection = Backbone.Collection.extend({
+	model: FrontProductModel,
+	url: '/api/store',
 })
 
 const InstaCollection = Backbone.Collection.extend({
@@ -77,4 +85,4 @@ const User = UserAuthModel.extend({
 	}
 })
 
-export {User, ProductModel, ProductCollection, InstaCollection}
+export {User, ProductModel, ProductCollection, FrontStoreCollection, FrontProductModel, InstaCollection}

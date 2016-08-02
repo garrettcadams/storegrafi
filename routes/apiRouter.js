@@ -2,8 +2,37 @@ let Router = require('express').Router;
 const apiRouter = Router()
 let helpers = require('../config/helpers.js')
 
+// Importing Stripe npm module with SECRET KEY (CHANGE TO PRODUCTION ON LIVE SERVERS)
+var stripe = require("stripe")("sk_test_gtePgSycICsHqbcB5aC35yfC");
+
 let User = require('../db/schema.js').User
 let Product = require('../db/schema.js').Product
+
+
+// STRIPE CUSTOM ROUTE TO CREATE A CHARGE
+apiRouter.post('/stripe/charge', function(req, res){
+  console.log('STRIPE REQUEST  >>>', req.body)
+  console.log('STRIPE REQUEST BODY >>>', req.body)
+  var stripeToken = req.body.id
+  console.log('stripeToken >>>', stripeToken)
+
+  var charge = stripe.charges.create({
+    amount: 20000, // amount in cents, again
+    currency: "usd",
+    source: stripeToken,
+    description: "Example charge"
+  }, function(err, charge) {
+    
+    if (err && err.type === 'StripeCardError') {
+      console.log('HERE IS THE STRIPE ERROR>>>', err)
+      res.send(err)
+    }
+
+    console.log('HERE IS THE STRIPE CHARGE>>>', charge)
+    res.json(charge)
+
+  })
+})
 
 
 // USER ROUTES
@@ -43,20 +72,10 @@ apiRouter
     })  
   })
 
-// INSTAGRAM PRODUCT ROUTES
 
-// Read all products
+
+// Get all user products (ADMIN VIEW)
 apiRouter.get('/products', function(req, res) {
-    Product.find(req.query, function(error, records){  
-        if(error) {
-            res.send(error)
-        }    
-        res.json(records)
-    })
-})
-
-// Get all user products
-apiRouter.get('/myproducts', function(req, res) {
     if (req.user){ // check to see if there is a logged in user
       console.log('current user ID to get filtered>>>', req.user._id)
       Product.find({userId: req.user._id}, function(error, records){
@@ -69,12 +88,23 @@ apiRouter.get('/myproducts', function(req, res) {
     }
 })
 
-// Get user products by ID
-apiRouter.get('/myproducts/:_id',function(req,res) {
+
+// Get a single product by ID (ADMIN VIEW)
+apiRouter.get('/products/:_id',function(req,res) {
   Product.findById(req.params._id, function(error,record) {
     if(error) {
       res.send(error)
     }
+    res.json(record)
+  })
+})
+
+//Update product
+apiRouter.put('/products/:_id', function(req,res){
+  Product.findByIdAndUpdate(req.params._id, req.body, function(error, record){
+    if(error) {
+        res.send(error) 
+    } 
     res.json(record)
   })
 })
@@ -101,6 +131,17 @@ apiRouter.delete('/products/:_id', function(req, res){
       _id: req.params._id
     })
   })  
+})
+
+// Get all user products (USER VIEW)
+apiRouter.get('/store/:userName', function(req, res) {
+    Product.find({userName: req.params.userName}, function(error, records){
+      console.log('request params >>>',req.params.userName)
+      if(error) {
+          res.send(error)
+      }
+      res.json(records)
+    }) 
 })
 
 // apiRouter.post('/dishes', function(request, response) {

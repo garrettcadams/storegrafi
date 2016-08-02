@@ -29,7 +29,7 @@ const RegisterBox = React.createClass({
 		ACTIONS.registerUser({
 			email: evt.currentTarget.email.value,
 			password: evt.currentTarget.password.value,
-			name: evt.currentTarget.userName.value
+			userName: evt.currentTarget.userName.value,
 		})
 		
 	},
@@ -40,7 +40,7 @@ const RegisterBox = React.createClass({
 				<form onSubmit={this._handleRegister} >
 					<h3>Register</h3>
 					<div className="form-group">
-						<input type="text" name="userName" className="form-control" placeholder="please enter your name" />
+						<input type="text" name="userName" className="form-control" placeholder="Enter a username" />
 					</div>
 					
 					<div className="form-group">

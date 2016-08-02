@@ -65,7 +65,6 @@ const SingleProduct = React.createClass ({
 	},
 
 	render: function(){
-		console.log('single product:', this.props.product)
 		return (
 				<tr onClick={this._handleViewSwitch} className="product-row">
 					<td><img src={this.props.product.get('imageUrl')} width="50" /></td>

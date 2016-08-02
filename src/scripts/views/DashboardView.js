@@ -86,12 +86,12 @@ var SinglePhoto = React.createClass ({
 			title: "Tshirt1",
 			description: "Your product description",
 			price: 0,
-			igId: this.props.singlePhoto.id,
 			imageUrl: this.props.singlePhoto.get('images').standard_resolution.url,
-			tags: this.props.singlePhoto.get('tags'),
-			userId: User.getCurrentUser()._id,
-			userEmail: User.getCurrentUser().email,
 			likesCount: this.props.singlePhoto.get('likes').count,
+			tags: this.props.singlePhoto.get('tags'),
+			instaId: this.props.singlePhoto.id,
+			userId: User.getCurrentUser()._id,
+			userName: User.getCurrentUser().userName,
 		}
 
 		if (e.target.checked){

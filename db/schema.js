@@ -9,16 +9,17 @@ const usersSchema = new Schema({
   // required for authentication: DO NOT TOUCH Or You May Get Punched
   email:     { type: String, required: true },
   password:  { type: String, required: true },
+  userName: {type: String, required: true},
+
   // x..x..x..x..x..x..x..x..x..x..x..x..x..x..x..x..x..x..x..x..x..x
   
    // example of optional fields
-  name:      { type: String },
   createdAt: { type: Date, default: Date.now }
 
 })
 
 // ----------------------
-// INSTAGRAM PRODUCTS
+// INSTAGRAM PRODUCT SCHEMA
 // ----------------------
 
 const productSchema = new Schema({
@@ -26,10 +27,11 @@ const productSchema = new Schema({
 	description: {type: String, required: true},
 	price: {type: Number, required: true},
 	imageUrl: {type: String},
+  likesCount: {type: Number},
 	tags: {type: [String], default: []},
+  instaId: {type: [String], default: []},
 	userId: {type: String, required: true},
-  userEmail: {type: String, required: true},
-	likesCount: {type: Number},
+  userName: {type: String, required: true},
 })
 
 module.exports = {

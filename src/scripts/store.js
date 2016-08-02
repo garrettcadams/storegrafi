@@ -1,12 +1,16 @@
-import Backbone from 'backbone'
 import _ from 'underscore'
-import {ProductModel, ProductCollection, InstaCollection} from './models/models'
+import Backbone from 'backbone'
+import {ProductModel, ProductCollection} from './models/models'
+import {FrontStoreCollection, FrontProductModel} from './models/models'
+import {InstaCollection} from './models/models'
 
 const IG_STORE = _.extend(Backbone.Events, {
 	data: {
 		productColl: new ProductCollection(),
-		singleProd: new ProductModel(),
+		frontStoreColl: new FrontStoreCollection(),
 		allPhotos: new InstaCollection(),
+		frontProductMod: new FrontProductModel(),
+		singleProd: new ProductModel(),
 	},
 
 	emitChange: function() {
@@ -33,6 +37,7 @@ const IG_STORE = _.extend(Backbone.Events, {
 		this.data.productColl.on('sync update', this.emitChange.bind(this))
 		this.data.allPhotos.on('sync update', this.emitChange.bind(this))
 		this.data.singleProd.on('sync update', this.emitChange.bind(this))
+		this.data.frontStoreColl.on('sync update', this.emitChange.bind(this))
 	}
 })
 

@@ -1,5 +1,8 @@
 import {User} from './models/models'
-import {ProductModel, ProductCollection, InstaCollection} from './models/models'
+import {ProductModel, ProductCollection} from './models/models'
+import {FrontStoreCollection, FrontProductModel} from './models/models'
+import {InstaCollection} from './models/models'
+
 import IG_STORE from './store'
 import hello from 'hellojs'
 import Backbone from 'backbone'
@@ -57,9 +60,16 @@ const ACTIONS = {
                 IG_STORE.data.productColl.add(pModel)
             },
             (err) => {
-                alert('oh noes! no products for you...')
+                toastr.error('oh noes! no products for you...')
                 console.log(err)
             })
+    },
+
+    updateProduct: function(newPropsObj){
+        // Update the model on state and save to database again
+        console.log(newPropsObj)
+        IG_STORE.set('singleProd', newPropsObj) 
+
     },
 
     deleteProduct: function(igIdVal){
@@ -80,13 +90,36 @@ const ACTIONS = {
     },
 
     fetchUserProducts: function(){
-        IG_STORE.data.productColl.fetch()
+        IG_STORE.data.productColl.fetch().then(
+            (responseData) => {
+                toastr.info('successful fetch!')
+                console.log(responseData)
+            },
+            (err) => {
+                toastr.error('couldnt fetch user insta products')
+                console.log(err)
+            })
     },
 
-     fetchSingleProduct: function(id){
+    fetchFrontStoreProducts: function(userName){
+
+        IG_STORE.data.frontStoreColl.fetch({
+            url: '/api/store/' + userName
+        }).then(
+            (responseData) => {
+                toastr.info('successful fetch!')
+                console.log('RESPONSE DATA >>>', responseData)
+            },
+            (err) => {
+                toastr.error('couldnt fetch public store products')
+                console.log(err)
+            })
+    },
+
+    fetchSingleProduct: function(id){
         console.log('id from url', id)
         IG_STORE.data.singleProd.fetch({
-            url: 'api/myproducts/' + id
+            url: 'api/products/' + id
         }).then(
             (responseData) => {
                 toastr.info('single product fetched!')
@@ -115,7 +148,6 @@ const ACTIONS = {
         console.log('photos array >>>', photosArray)
 
         IG_STORE.set('allPhotos', new InstaCollection(photosArray)) 
-        
     },
 
     linkToInsta: function(){
