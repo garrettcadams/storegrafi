@@ -57,7 +57,8 @@ const PhotoBlock = React.createClass ({
 	
 	_handleStripeCheckout:function(e){
 
-		var priceInCents = this.props.product.get('price') * 100
+		var priceInCents = Math.floor(this.props.product.get('price') * 100)
+		console.log(priceInCents)
 		
 		var handler = StripeCheckout.configure({
 		    key: 'pk_test_074B0PdVPVpkE645iNltx6Ps',
