@@ -30,6 +30,10 @@ const app = function() {
   		'*redirect':'handleRedirect'
   	},
 
+    handleHome: function(){
+        ReactDOM.render(<HomeView />, document.querySelector('.container'))
+    },
+
   	handleDashboard: function(){
   		  ReactDOM.render(<DashboardView />, document.querySelector('.container'))
   	},
