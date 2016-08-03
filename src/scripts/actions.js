@@ -10,9 +10,11 @@ import toastr from 'toastr'
 
 // Intializing hello function for Instagram authorization
 hello.init({
-    instagram : "34e9f619c5e3475492e7b2d75f2a9f26"
+        // instagram : "34e9f619c5e3475492e7b2d75f2a9f26" // Instagram dev ID
+        instagram : "bd6ad80d1a80435293503c16a2a29555" // Instagram live ID
     },{
-        redirect_uri:'http://localhost:3000'
+        // redirect_uri:'http://localhost:3000' // Local dev
+        redirect_uri:'https://storegrafi.herokuapp.com' // Live redirect address
     });
 
 
