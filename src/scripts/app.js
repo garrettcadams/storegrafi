@@ -15,7 +15,7 @@ import UserFrontStore from './views/UserFrontStore'
 //import models
 import {User} from './models/models'
 
-console.log('YOLO173')
+// console.log('YOLO173')
 
 const app = function() {
   const AppRouter = Backbone.Router.extend ({

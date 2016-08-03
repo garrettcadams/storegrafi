@@ -28,11 +28,18 @@ const DashboardView = React.createClass ({
 
 	render: function(){
 		return(
-				<div className="dashboard container">
-					<h1>Dashboard</h1>
-					<MainMenu />
-					<InstaConnect productColl={this.state.productColl} allPhotos={this.state.allPhotos} />
+				<div id="dashboard">
+					<div className="expanded row">
+						<div id="navigation" className="small-6 medium-2 columns">
+							<a id="logo" href="#dashboard">Storegrafi<br />(Beta)</a>
+							<MainMenu />
+						</div>
 
+						<div id="app-view" className="small-6 medium-10 columns">
+							<h1>Dashboard</h1>
+							<InstaConnect productColl={this.state.productColl} allPhotos={this.state.allPhotos} />
+						</div>
+					</div>
 				</div>
 			)
 	}
@@ -51,7 +58,7 @@ const InstaConnect = React.createClass ({
 					<div id="result"></div>
 					
 					<p>Connect to your Instagram profile by clicking the button below</p>
-					<button className="btn btn-default" onClick={this._instaHandler}>Connect with Instagram</button>
+					<button className="button" onClick={this._instaHandler}>Connect with Instagram</button>
 					
 					<hr/>
 
@@ -69,10 +76,9 @@ var PhotoContainer = React.createClass ({
 
 	render: function (){
 		return (
-			<div className="photo-container-list">
-				<h2>The queried photos</h2>
+			<div className="row small-up-1 medium-up-2 large-up-3">
 				{this.props.allPhotos.map((photo, i)=><SinglePhoto singlePhoto={photo} key={i} />)}
-				<button className="btn btn-default" onClick={this._handleSave}>Save and continue</button>
+				<button className="button" onClick={this._handleSave}>Save and continue</button>
 			</div>
 		)
 	}
@@ -83,8 +89,8 @@ var SinglePhoto = React.createClass ({
 	_getSelectedPhotos: function(e){
 
 		var productInfo = {
-			title: "Tshirt1",
-			description: "Your product description",
+			title: " ",
+			description: " ",
 			price: 0,
 			imageUrl: this.props.singlePhoto.get('images').standard_resolution.url,
 			likesCount: this.props.singlePhoto.get('likes').count,
@@ -102,20 +108,11 @@ var SinglePhoto = React.createClass ({
 			ACTIONS.deleteProduct(this.props.singlePhoto.id)
 		}
 
-		
-		// if (e.target.checked){
-		// 	this.cid = IG_STORE.data.productColl.add(this.props.singlePhoto).cid
-		// }
-
-		// else {
-		// 	IG_STORE.data.productColl.remove(this.cid)
-		// }
-
 	},
 
 	render: function(){
 		return (
-				<div className="col-md-4">
+				<div className="column">
 					<img src={this.props.singlePhoto.get('images').standard_resolution.url} />
 					<input type="checkbox" onClick={this._getSelectedPhotos} />
 				</div>

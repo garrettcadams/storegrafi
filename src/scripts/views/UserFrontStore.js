@@ -31,10 +31,11 @@ const UserFrontStore = React.createClass ({
 		console.log('front store collection >>>>', this.state.frontStoreColl)
 		
 		return(
-				<div className="products-wrapper">
-					<h1>Public Store View</h1>
-					<FrontStoreContainer myProducts={this.state.frontStoreColl} />
+
+				<div id="front-store">
+						<FrontStoreContainer myProducts={this.state.frontStoreColl} />
 				</div>
+
 			)
 	}
 })
@@ -44,7 +45,7 @@ const FrontStoreContainer = React.createClass ({
 	render: function(){
 		
 		return(
-				<div className="products-container">
+				<div className="row small-up-3 small-collapse">
 					{this.props.myProducts.map((product, i)=><PhotoBlock product={product} key={i}/>)}
 				</div>
 			)
@@ -72,7 +73,8 @@ const PhotoBlock = React.createClass ({
 					type: 'json',
 					url: 'api/stripe/charge',
 					data: {
-						id: token.id
+						id: token.id,
+						price: priceInCents,
 					}
 				})
 		    }
@@ -96,9 +98,9 @@ const PhotoBlock = React.createClass ({
 	render: function(){
 
 		return (
-				<div className="col-md-4">
+				<div className="column">
 					<img src={this.props.product.get('imageUrl')} />
-					<button onClick={this._handleStripeCheckout} className="stripeButton">Buy Now</button>
+					<button onClick={this._handleStripeCheckout} className="button stripe">Buy Now</button>
 				</div>
 			)
 	}

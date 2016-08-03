@@ -6,7 +6,6 @@ const HomeView = React.createClass ({
 		return(
 				<div className="home container">
 					<h1>Homepage</h1>
-					<MainMenu />
 				</div>
 			)
 	}

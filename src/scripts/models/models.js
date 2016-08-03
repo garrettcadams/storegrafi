@@ -58,10 +58,7 @@ UserAuthModel.login = function(email, password) {
 			email: email,
 			password: password
 		}
-	}).then((userData) => {
-		localStorage[app_name + '_user'] = JSON.stringify(userData)
-		return userData
-	},(err)=> {console.log(err.responseText)})
+	})
 }
 
 UserAuthModel.logout = function() {

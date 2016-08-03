@@ -11,16 +11,17 @@ let Product = require('../db/schema.js').Product
 
 // STRIPE CUSTOM ROUTE TO CREATE A CHARGE
 apiRouter.post('/stripe/charge', function(req, res){
-  console.log('STRIPE REQUEST  >>>', req.body)
+  console.log('STRIPE REQUEST  >>>', req)
   console.log('STRIPE REQUEST BODY >>>', req.body)
+  
   var stripeToken = req.body.id
-  console.log('stripeToken >>>', stripeToken)
+  var priceInCents = req.body.price
 
   var charge = stripe.charges.create({
-    amount: 20000, // amount in cents, again
+    amount: priceInCents, // amount in cents, again
     currency: "usd",
     source: stripeToken,
-    description: "Example charge"
+    description: "Storegrafi order"
   }, function(err, charge) {
     
     if (err && err.type === 'StripeCardError') {
@@ -101,7 +102,7 @@ apiRouter.get('/products/:_id',function(req,res) {
 
 //Update product
 apiRouter.put('/products/:_id', function(req,res){
-  Product.findByIdAndUpdate(req.params._id, req.body, function(error, record){
+  Product.findByIdAndUpdate(req.params._id, req.body, {new: true}, function(error, record){
     if(error) {
         res.send(error) 
     } 

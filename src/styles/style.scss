@@ -1,27 +1,27 @@
-* {
-	font-family: Helvetica, Arial, sans-serif;
-	box-sizing: border-box;
-}
+/* VARIABLES */
 
-h1 {
-	font-size: 50px;
-	text-align: center;
-	color: fuchsia;
-}
+$nav-bg: #f1f1f1;
 
 img {
 	max-width: 100%;
 }
 
-.container {
-	padding-bottom: 50px;
+#logo {
+	font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    display: block;
 }
 
-/* MY PRODUCTS VIEW */
+#navigation {
+	background: $nav-bg;
+	min-height: 100vh;
+}
 
-.myproducts-table {
-
-	tr.product-row {
-		cursor: pointer;
+table {
+	td {
+		text-align: center;
 	}
+
 }
+

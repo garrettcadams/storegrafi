@@ -27,11 +27,21 @@ const MyProductsView = React.createClass ({
 	render: function(){
 		
 		return(
-				<div className="products-wrapper">
-					<h1>My Products View</h1>
-					<MainMenu />
-					<ProductsContainer myProducts={this.state.productColl} />
+
+				<div id="myproducts">
+					<div className="expanded row">
+						<div id="navigation" className="small-6 medium-2 columns">
+							<a id="logo" href="#dashboard">Storegrafi<br />(Beta)</a>
+							<MainMenu />
+						</div>
+
+						<div id="app-view" className="small-6 medium-10 columns">
+							<h1>My Products View</h1>
+							<ProductsContainer myProducts={this.state.productColl} />
+						</div>
+					</div>
 				</div>
+
 			)
 	}
 })
@@ -42,7 +52,7 @@ const ProductsContainer = React.createClass ({
 		
 		return(
 				<div className="products-container">
-					<table className="table table-hover">
+					<table className="hover">
 						<tbody>
 							<tr>
 								<th className="product-image">Product Image</th>
