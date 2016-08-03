@@ -78,15 +78,15 @@ const PhotoBlock = React.createClass ({
 					}
 				})
 		    }
-		  });
-
+		 });
 
 		//Open Checkout with further options:
 	    handler.open({
 	      name: this.props.product.get('userName'),
 	      description: this.props.product.get('title'),
 	      amount: priceInCents,
-	    });
+	    })
+
 	    e.preventDefault();
 
 	    // Close Checkout on page navigation:
@@ -99,8 +99,12 @@ const PhotoBlock = React.createClass ({
 
 		return (
 				<div className="column">
-					<img src={this.props.product.get('imageUrl')} />
-					<button onClick={this._handleStripeCheckout} className="button stripe">Buy Now</button>
+					<div className="photo-block">
+						<img src={this.props.product.get('imageUrl')} />
+						<button onClick={this._handleStripeCheckout} className="button stripe">Buy Now</button>
+
+					</div>
+					
 				</div>
 			)
 	}
