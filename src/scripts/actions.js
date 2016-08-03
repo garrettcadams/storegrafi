@@ -14,7 +14,7 @@ hello.init({
         instagram : "bd6ad80d1a80435293503c16a2a29555" // Instagram live ID
     },{
         // redirect_uri:'http://localhost:3000' // Local dev
-        redirect_uri:'https://storegrafi.herokuapp.com' // Live redirect address
+        redirect_uri:'https://storegrafi.herokuapp.com/#dashboard' // Live redirect address
     });
 
 
