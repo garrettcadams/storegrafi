@@ -77,6 +77,7 @@
     "stripe": "~4.9.0",
     "hellojs": "~1.13.3",
     "passport-stripe": "~0.2.2",
-    "foundation-sites": "~6.2.3"
+    "foundation-sites": "~6.2.3",
+    "request": "~2.74.0"
   }
 }
