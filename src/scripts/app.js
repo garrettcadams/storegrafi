@@ -11,6 +11,7 @@ import LoginView from './views/LoginView'
 import MyProductsView from './views/MyProductsView'
 import SingleProductView from './views/SingleProductView'
 import UserFrontStore from './views/UserFrontStore'
+import SettingsView from './views/SettingsView'
 
 //import models
 import {User} from './models/models'
@@ -25,13 +26,30 @@ const app = function() {
   		'login':'handleLogin',
   		'myproducts':'handleMyProducts',
   		'myproducts/:id':'handleSingleView',
+      'settings':'handleStoreSettings',
+      'confirmStripe?:params': 'handleStripeConfirm',
       'u/:userName':'handleFrontStore',
       // 'u/:username/:id':'handleFrontProduct',
   		'*redirect':'handleRedirect'
   	},
 
+    handleLogin: function(){
+
+        if(!User.getCurrentUser()){
+          ReactDOM.render(<LoginView />, document.querySelector('.container'))
+        }
+
+        else {
+           location.hash = 'dashboard'
+        }  
+    },
+
     handleHome: function(){
         ReactDOM.render(<HomeView />, document.querySelector('.container'))
+    },
+
+    handleStoreSettings: function(){
+        ReactDOM.render(<DashboardView />, document.querySelector('.container'))
     },
 
   	handleDashboard: function(){
@@ -39,24 +57,24 @@ const app = function() {
   	},
 
   	handleMyProducts: function(){
-  		  ReactDOM.render(<MyProductsView />, document.querySelector('.container'))
+  		  ReactDOM.render(<DashboardView />, document.querySelector('.container'))
   	},
 
   	handleSingleView: function(id){
-  		  ReactDOM.render(<SingleProductView id={id} />, document.querySelector('.container'))
+  		  ReactDOM.render(<DashboardView id={id} />, document.querySelector('.container'))
+        // ReactDOM.render(<SingleProductView id={id} />, document.querySelector('.container'))
   	},
 
-  	handleLogin: function(){
-  		  ReactDOM.render(<LoginView />, document.querySelector('.container'))
-  	},
+    handleStripeConfirm: function(params){
+      console.log(params)
+        ReactDOM.render(<DashboardView params={params} />, document.querySelector('.container'))
+        // ReactDOM.render(<SingleProductView id={id} />, document.querySelector('.container'))
+    },
 
     handleFrontStore: function(userName){
         ReactDOM.render(<UserFrontStore userName={userName} />, document.querySelector('.container'))
     },
 
-    // handleFrontProduct: function(){
-    //     ReactDOM.render(<UserFrontProduct />, document.querySelector('.container'))
-    // },
 
   	handleRedirect: function(){
   	   console.log('REDIRECT TRIGGERED....')
@@ -65,14 +83,6 @@ const app = function() {
 
   	initialize: function(){
   		Backbone.history.start()
-  		// listen for event on Backbone Router itself
-  		//   this.on('route', function(handlerName){
-  		// 	if(!User.getCurrentUser()){
-  		// 		location.hash = 'login'
-  		// 	}
-    //     location.hash = 'dashboard'
-        
-  		// })
   	}
   })
   new AppRouter()

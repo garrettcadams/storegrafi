@@ -1,6 +1,25 @@
+/* IMPORTING FOUNDATION SETTINGS */
 /* VARIABLES */
 
-$nav-bg: #f1f1f1;
+@import 'https://fonts.googleapis.com/css?family=Roboto';
+// @import './lib/foundation.scss';
+
+$body-font-family: 'Roboto', 'Helvetica', sans-serif;
+
+$nav-bg: #070d34;
+$nav-inactive: #d3dbe2;
+$nav-active: #d32072;
+
+$button-color: #ed3e91;
+$button-color-hover: #d01d71;
+
+body {
+	font-family: $body-font-family;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: $body-font-family;
+}
 
 img {
 	max-width: 100%;
@@ -9,13 +28,8 @@ img {
 #logo {
 	font-size: 1.5rem;
     font-weight: 700;
-    margin-bottom: 20px;
+    margin: 20px 10px;
     display: block;
-}
-
-#navigation {
-	background: $nav-bg;
-	min-height: 100vh;
 }
 
 table {
@@ -26,4 +40,46 @@ table {
 
 .photo-block {
 	padding: 2px;
+}
+
+.button {
+	background-color: $button-color;
+	border-radius: 3px;
+	&:hover {
+		background-color: $button-color-hover;
+	}
+}
+
+#hero {
+	background: #cecece;
+    text-align: center;
+    padding: 9em 0;
+}
+
+#navigation {
+	background: $nav-bg;
+	min-height: 100vh;
+	padding: 0;
+
+	ul {
+		margin: 0;
+
+		li {
+
+			&:hover {
+				background-color: $nav-active;
+			}
+
+			a {
+				color: $nav-inactive;
+				display: block;		
+				padding: 10px 10px;		
+			}
+			
+		}
+	}
+}
+
+#app-view {
+	padding-top: 10px;
 }

@@ -9,7 +9,7 @@ const HomeView = React.createClass ({
 						<div className="medium-12 medium-centered columns">
 							<div className="pitch">
 								<h1>Storegrafi</h1>
-								<h2>Turn your Instagram photos into a real ecommerce store</h2>
+								<h2>A store building platform for Instagram creators.</h2>
 								<a className="button large" href="#login">Get started</a>
 							</div>
 							

@@ -27,46 +27,25 @@ const MyProductsView = React.createClass ({
 	render: function(){
 		
 		return(
+				<div className="row">
+					<div className="medium-12 columns">
+						<table className="hover">
+							<tbody>
+								<tr>
+									<th className="product-image">Product Image</th>
+									<th className="product-title">Product Title</th>
+									<th className="product-price">Product Price</th>
+								</tr>
 
-				<div id="myproducts">
-					<div className="expanded row">
-						<div id="navigation" className="small-6 medium-2 columns">
-							<a id="logo" href="#dashboard">Storegrafi<br />(Beta)</a>
-							<MainMenu />
-						</div>
-
-						<div id="app-view" className="small-6 medium-10 columns">
-							<h1>My Products View</h1>
-							<ProductsContainer myProducts={this.state.productColl} />
-						</div>
+								{this.state.productColl.map((product, i)=><SingleProduct product={product} key={i}/>)}
+							</tbody>
+						</table>
 					</div>
 				</div>
-
 			)
 	}
 })
 
-const ProductsContainer = React.createClass ({
-	
-	render: function(){
-		
-		return(
-				<div className="products-container">
-					<table className="hover">
-						<tbody>
-							<tr>
-								<th className="product-image">Product Image</th>
-								<th className="product-title">Product Title</th>
-								<th className="product-price">Product Price</th>
-							</tr>
-
-							{this.props.myProducts.map((product, i)=><SingleProduct product={product} key={i}/>)}
-						</tbody>
-					</table>
-				</div>
-			)
-	}
-})
 
 const SingleProduct = React.createClass ({
 	

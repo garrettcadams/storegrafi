@@ -10,11 +10,11 @@ import toastr from 'toastr'
 
 // Intializing hello function for Instagram authorization
 hello.init({
-        // instagram : "34e9f619c5e3475492e7b2d75f2a9f26" // Instagram dev ID
-        instagram : "bd6ad80d1a80435293503c16a2a29555" // Instagram live ID
+        instagram : "34e9f619c5e3475492e7b2d75f2a9f26" // Instagram dev ID
+        // instagram : "bd6ad80d1a80435293503c16a2a29555" // Instagram live ID
     },{
-        // redirect_uri:'http://localhost:3000' // Local dev
-        redirect_uri:'https://storegrafi.herokuapp.com/#dashboard' // Live redirect address
+        redirect_uri:'http://localhost:3000' // Local dev
+        // redirect_uri:'https://storegrafi.herokuapp.com/#dashboard' // Live redirect address
     });
 
 
@@ -52,7 +52,15 @@ const ACTIONS = {
 
     logUserOut: function() { 
         User.logout().then(
-            () => location.hash = 'login'
+            (responseData) => {
+                toastr.success(`user logged out!`)
+                console.log(responseData)
+                location.hash = 'login'
+            },
+            (error) => {
+                toastr.error('Sorry, there was a problem.')
+                console.log(error)
+            }
         )
     },
 
@@ -74,7 +82,7 @@ const ACTIONS = {
     updateProduct: function(newPropsObj){
         // Update the model on state and save to database again
         console.log(newPropsObj)
-        IG_STORE.set('singleProd', newPropsObj) 
+        IG_STORE.set('singleProd', newPropsObj)
 
     },
 
@@ -109,8 +117,11 @@ const ACTIONS = {
 
     fetchFrontStoreProducts: function(userName){
 
+        // Fetch Instagram product collection and set models to STORE
+
         IG_STORE.data.frontStoreColl.fetch({
-            url: '/api/store/' + userName
+            url: '/api/store/' + userName,
+            // reset: true,
         }).then(
             (responseData) => {
                 toastr.info('successful fetch!')
@@ -171,6 +182,17 @@ const ACTIONS = {
 
         }, this.errorHandler);
     },
+
+    saveStripeKeys: function(secretKey,pubKey) {
+        return $.ajax({
+                    method: 'POST',
+                    type: 'json',
+                    url: 'api/stripe/key',
+                    data: {
+                        secretKey: secretKey,
+                }
+            })
+    }
 
 }
 

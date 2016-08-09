@@ -14,8 +14,13 @@ const usersSchema = new Schema({
   // x..x..x..x..x..x..x..x..x..x..x..x..x..x..x..x..x..x..x..x..x..x
   
    // example of optional fields
-  createdAt: { type: Date, default: Date.now }
+  createdAt: { type: Date, default: Date.now },
 
+  // All required Stripe user info for making charges
+  stripe_publishable_key: { type: String},
+  stripe_user_id: { type: String},
+  refresh_token: { type: String},
+  access_token: { type: String},
 })
 
 // ----------------------
@@ -32,6 +37,10 @@ const productSchema = new Schema({
   instaId: {type: [String], default: []},
 	userId: {type: String, required: true},
   userName: {type: String, required: true},
+  stripePubKey: { type: String},
+  stripeId: { type: String},
+  stripeRefreshToken: { type: String},
+  stripeToken: { type: String},
 })
 
 module.exports = {

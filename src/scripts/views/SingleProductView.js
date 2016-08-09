@@ -14,6 +14,8 @@ const SingleProductView = React.createClass ({
 	},
 
 	componentWillMount: function(){
+
+		console.log('hitting component will mount...')
 			
 		ACTIONS.fetchSingleProduct(this.props.id)
 
@@ -27,24 +29,11 @@ const SingleProductView = React.createClass ({
 	},
 
 	render: function(){
-		console.log('ID:', this.props.id)
-		console.log('collection info on state', this.state.productColl)
-		console.log('model info on state', this.state.singleProd)
-
+	
 		return(
 				
-				<div id="myproducts">
-					<div className="expanded row">
-						<div id="navigation" className="small-6 medium-2 columns">
-							<a id="logo" href="#dashboard">Storegrafi<br />(Beta)</a>
-							<MainMenu />
-						</div>
-
-						<div id="app-view" className="small-6 medium-10 columns">
-							<h1>Edit Your Product</h1>
-							<ProductEditor singleProd={this.state.singleProd} />
-						</div>
-					</div>
+				<div id="myproducts-wrapper">
+					<ProductEditor singleProd={this.state.singleProd} />
 				</div>
 			)
 	}
@@ -70,7 +59,6 @@ const ProductEditor = React.createClass({
 
 	_handleSave: function(e){
 		e.preventDefault()
-		console.log('you pushed the button didnt ya?')
 		IG_STORE.data.singleProd.set({
 			title: e.currentTarget.title.value,
 			description: e.currentTarget.description.value,
@@ -83,6 +71,7 @@ const ProductEditor = React.createClass({
                 console.log(responseData)
 
                 IG_STORE.data.productColl.add(pModel)
+                location.hash = 'myproducts'
             },
             (err) => {
                 toastr.error('oh noes! couldnt update product')
@@ -113,7 +102,6 @@ const ProductEditor = React.createClass({
 	
 	render: function(){
 		console.log('render props>>>', this.props.singleProd)
-		console.log(this.state)
 		return (
 				<div className="row">
 
@@ -131,8 +119,6 @@ const ProductEditor = React.createClass({
 							<div className="form-group">
 								<input type="text" onChange={this._handlePriceEdit} value={this.state.priceVal} placeholder="Enter dollar amount (e.g. 19.99)" className="form-control" name="price" />
 							</div>
-							
-							
 
 							<button className="button large" type="submit">Save Product</button>
 						</form>	

@@ -2,38 +2,9 @@ let Router = require('express').Router;
 const apiRouter = Router()
 let helpers = require('../config/helpers.js')
 
-// Importing Stripe npm module with SECRET KEY (CHANGE TO PRODUCTION ON LIVE SERVERS)
-var stripe = require("stripe")("sk_test_gtePgSycICsHqbcB5aC35yfC");
-
 let User = require('../db/schema.js').User
 let Product = require('../db/schema.js').Product
 
-
-// STRIPE CUSTOM ROUTE TO CREATE A CHARGE
-apiRouter.post('/stripe/charge', function(req, res){
-  console.log('STRIPE REQUEST  >>>', req)
-  console.log('STRIPE REQUEST BODY >>>', req.body)
-  
-  var stripeToken = req.body.id
-  var priceInCents = req.body.price
-
-  var charge = stripe.charges.create({
-    amount: priceInCents, // amount in cents, again
-    currency: "usd",
-    source: stripeToken,
-    description: "Storegrafi order"
-  }, function(err, charge) {
-    
-    if (err && err.type === 'StripeCardError') {
-      console.log('HERE IS THE STRIPE ERROR>>>', err)
-      res.send(err)
-    }
-
-    console.log('HERE IS THE STRIPE CHARGE>>>', charge)
-    res.json(charge)
-
-  })
-})
 
 
 // USER ROUTES
@@ -136,8 +107,8 @@ apiRouter.delete('/products/:_id', function(req, res){
 
 // Get all user products (USER VIEW)
 apiRouter.get('/store/:userName', function(req, res) {
+    console.log('STORE REQUEST PARAMS>>>', req.params)
     Product.find({userName: req.params.userName}, function(error, records){
-      console.log('request params >>>',req.params.userName)
       if(error) {
           res.send(error)
       }

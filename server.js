@@ -24,6 +24,7 @@ const connectToDB = require('./config/db-setup.js').connectToDB
 let indexRouter = require('./routes/indexRouter.js')
 let authRouter = require('./routes/authRouter.js')
 let apiRouter = require('./routes/apiRouter.js')
+let stripeRouter = require('./routes/stripeRouter.js')
 
 // Load DB User Model (for appAuthentication configuration)
 let User = require('./db/schema.js').User
@@ -69,6 +70,7 @@ app.use( appMiddleWare.cookifyUser )
 app.use( '/', indexRouter )
 app.use( '/auth', authRouter )
 app.use( '/api', apiRouter )
+app.use( '/stripe', stripeRouter);
 
 app.use(appMiddleWare.errorHandler);
 

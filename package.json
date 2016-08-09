@@ -69,12 +69,14 @@
     "express-session": "^1.14.0",
     "jquery": "^3.0.0",
     "mongoose": "^4.5.3",
-    "passport": "^0.3.2",
+    "passport": "~0.3.2",
     "passport-local": "^1.0.0",
     "react": "^15.1.0",
     "react-dom": "^15.1.0",
     "toastr": "~2.1.2",
     "stripe": "~4.9.0",
-    "hellojs": "~1.13.3"
+    "hellojs": "~1.13.3",
+    "passport-stripe": "~0.2.2",
+    "foundation-sites": "~6.2.3"
   }
 }

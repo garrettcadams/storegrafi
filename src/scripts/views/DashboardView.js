@@ -3,6 +3,10 @@ import React from 'react'
 
 // import views
 import MainMenu from './MainMenu'
+import MyProductsView from './MyProductsView'
+import SingleProductView from './SingleProductView'
+import SettingsView from './SettingsView'
+import StripeConfirmation from './StripeConfirmation'
 
 //import models
 import {User, ProductModel, ProductCollection} from '../models/models'
@@ -27,17 +31,43 @@ const DashboardView = React.createClass ({
 	},
 
 	render: function(){
+
+		console.log('hitting DASHBOARD...')
+
+		var currentView = ''
+
+		if(location.hash === '#dashboard') {
+			currentView = <InstaConnect productColl={this.state.productColl} allPhotos={this.state.allPhotos} />
+		}
+
+		if(location.hash === '#myproducts'){
+			currentView = <MyProductsView />
+		}
+
+		if(location.hash === '#myproducts/' + this.props.id){
+			currentView = <SingleProductView id={this.props.id} />
+		}
+
+		if(location.hash === '#settings'){
+			currentView = <SettingsView />
+		}
+
+		if(location.hash === '#confirmStripe?' + this.props.params ) {
+			currentView = <StripeConfirmation paramString={this.props.params} />
+		}
+
 		return(
 				<div id="dashboard">
 					<div className="expanded row">
-						<div id="navigation" className="small-6 medium-2 columns">
-							<a id="logo" href="#dashboard">Storegrafi<br />(Beta)</a>
+						<div id="navigation" className="medium-3 columns">
+							<a id="logo" href="#dashboard">
+								<img src="../images/logo.png" alt="Storegrafi logo" />
+							</a>
 							<MainMenu />
 						</div>
 
-						<div id="app-view" className="small-6 medium-10 columns">
-							<h1>Dashboard</h1>
-							<InstaConnect productColl={this.state.productColl} allPhotos={this.state.allPhotos} />
+						<div id="app-view" className="medium-9 columns">
+							{currentView}
 						</div>
 					</div>
 				</div>
@@ -54,6 +84,9 @@ const InstaConnect = React.createClass ({
 	render: function(){
 		return(
 				<div className="dashboard container">
+					
+					<h1>Dashboard</h1>
+
 					<div id="profile"></div>
 					<div id="result"></div>
 					
@@ -98,6 +131,10 @@ var SinglePhoto = React.createClass ({
 			instaId: this.props.singlePhoto.id,
 			userId: User.getCurrentUser()._id,
 			userName: User.getCurrentUser().userName,
+			stripePubKey: User.getCurrentUser().stripe_publishable_key,
+			stripeId: User.getCurrentUser().stripe_user_id,
+		    stripeRefreshToken: User.getCurrentUser().refresh_token,
+		    stripeToken: User.getCurrentUser().access_token,
 		}
 
 		if (e.target.checked){

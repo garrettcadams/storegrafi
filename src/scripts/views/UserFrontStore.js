@@ -17,6 +17,7 @@ const UserFrontStore = React.createClass ({
 	componentWillMount: function(){
 			
 		ACTIONS.fetchFrontStoreProducts(this.props.userName)
+		
 		IG_STORE.on('updateContent', ()=>{
 			this.setState(IG_STORE.getData())
 		})
@@ -46,7 +47,7 @@ const FrontStoreContainer = React.createClass ({
 		
 		return(
 				<div className="row small-up-3 small-collapse">
-					{this.props.myProducts.map((product, i)=><PhotoBlock product={product} key={i}/>)}
+					{this.props.myProducts.map((product, i)=> <PhotoBlock product={product} key={i}/> )}
 				</div>
 			)
 	}
@@ -54,32 +55,32 @@ const FrontStoreContainer = React.createClass ({
 
 const PhotoBlock = React.createClass ({
 	
-	
 	_handleStripeCheckout:function(e){
-
+		var self = this;
 		var priceInCents = Math.floor(this.props.product.get('price') * 100)
-		console.log(priceInCents)
 		
 		var handler = StripeCheckout.configure({
-		    key: 'pk_test_074B0PdVPVpkE645iNltx6Ps',
+		    key: self.props.product.get('stripePubKey'),
 		    // image: '/img/documentation/checkout/marketplace.png',
 		    locale: 'auto',
 		    token: function(token) {
 		      // You can access the token ID with `token.id`.
 		      // Get the token ID to your server-side code for use.
+
+		      console.log('STRIPE TOKEN OBJECT RETURNED >>>', token)
 		      
-		      console.log(token)
 		      return $.ajax({
 					method: 'POST',
 					type: 'json',
-					url: 'api/stripe/charge',
+					url: '/stripe/charge',
 					data: {
-						id: token.id,
+						token: token.id,
 						price: priceInCents,
+						stripeId: self.props.product.get('stripeId'),
 					}
 				})
 		    }
-		 });
+		 })
 
 		//Open Checkout with further options:
 	    handler.open({
@@ -97,6 +98,8 @@ const PhotoBlock = React.createClass ({
 	},
 
 	render: function(){
+
+		console.log('PRODUCT>>',this.props.product)
 
 		return (
 				<div className="column">
