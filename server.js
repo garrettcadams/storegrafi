@@ -5,7 +5,7 @@ if (!global.PROJECT_NAME) { //« set by npm run init-dev »
 }
 // x..x..x..x..x..x..x..x..x..x..x..x..x..x..x..x..x..x..x..x..x..x
 
-
+console.log('dev key',process.env.API_KEY)
 
 const bodyParser = require('body-parser');
 const express = require('express');
@@ -61,6 +61,7 @@ app.use( passport.initialize() );
 app.use( passport.session() );
 appAuthentication(User)
 app.use( appMiddleWare.cookifyUser )
+app.use (appMiddleWare.cookifyEnv)
 
 // 
 // =========

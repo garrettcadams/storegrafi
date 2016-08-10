@@ -1,21 +1,32 @@
 let Router = require('express').Router
+let helpers = require('../config/helpers.js')
+
 let User = require('../db/schema.js').User
+let Product = require('../db/schema.js').Product
+
 let stripe = require('stripe')('sk_test_gtePgSycICsHqbcB5aC35yfC')
 let request = require('request')
+let secrets = require('../config/secrets')
 
 const stripeRouter = Router()
 
-var CLIENT_ID = 'ca_8wmH1pUZdKdUGfgcQIMNVXjluE1LTFfK' // Stripe Connect client ID
-var API_KEY = 'sk_test_gtePgSycICsHqbcB5aC35yfC' // Stripe secret API Key
-
+// Set Stripe test keys if we are in localhost test environment
 if (process.env.NODE_ENV === "development") {
-	CLIENT_ID = 'ca_8wmH1pUZdKdUGfgcQIMNVXjluE1LTFfK'
-	API_KEY = 'sk_test_gtePgSycICsHqbcB5aC35yfC'
+	var CLIENT_ID = secrets.CLIENT_ID
+	var SECRET_KEY = secrets.SECRET_KEY
 }
 
+// otherwise, grab live keys from Heroku config vars
+else {
+	var CLIENT_ID = process.env.CLIENT_ID
+	var SECRET_KEY = process.env.SECRET_KEY
+}
+
+console.log('YOUR CURRENT STRIPE BASED ON YOUR ENV CLIENT_ID>>>', CLIENT_ID)
+console.log('YOUR CURRENT STRIPE BASED ON YOUR ENV SECRET_KEY>>>', SECRET_KEY)
+
+
 stripeRouter.get('/code', function(req,res) {
-	console.log('YOUR CURRENT CLIENT_ID KEY>>>', CLIENT_ID)
-	console.log(req.query)
 	let code = req.query.code
 
 	request.post({
@@ -24,20 +35,15 @@ stripeRouter.get('/code', function(req,res) {
 		  grant_type: "authorization_code",
 		  client_id: CLIENT_ID,
 		  code: code,
-		  client_secret: API_KEY
+		  client_secret: SECRET_KEY
 		  }
 		}, 
 
 		function(err, r, body) {
-			console.log(err)
-			console.log('got response from stripe oauth')
-			console.log('STRIPE RESPONSE BODY>>>', body)
 		
 			var bodyJSON = JSON.parse(body)
 
-			console.log('BODY STRIPE USER ID>>', JSON.parse(body).stripe_user_id)
-
-
+			// Updating User model with Stripe Connect keys
 			User.findByIdAndUpdate(req.user._id, {
 
 			  "stripe_publishable_key": bodyJSON.stripe_publishable_key,
@@ -55,7 +61,25 @@ stripeRouter.get('/code', function(req,res) {
 			    console.log('NICE! USER UPDATED>>>', record)
 			    res.json(record)
 				
-			}) // end of findByIdAndUpdate
+			}) 
+
+			// Updating products model with Stripe response keys
+			Product.update({userId: req.user._id}, {
+
+			  "stripePubKey": bodyJSON.stripe_publishable_key,
+			  "stripeId": bodyJSON.stripe_user_id,
+			  "stripeRefreshToken": bodyJSON.refresh_token,
+			  "stripeToken": bodyJSON.access_token,
+
+			}, { multi: true }, function(err, record){
+			
+				if(err) {
+					console.log('COULDNT UPDATE USER >>>', err)
+			    } 
+
+			    console.log('NICE! ALL PRODUCTS ARE UPDATED WITH STRIPE KEYS>>>', record)
+				
+			}) 
 		}
 	)
 })
@@ -63,16 +87,11 @@ stripeRouter.get('/code', function(req,res) {
 
 // STRIPE CUSTOM ROUTE TO CREATE A CHARGE
 stripeRouter.post('/charge', function(req, res){
-	
-  console.log('hitting POST route on Stripe ROUTER...')
-  
+	  
   var TOKEN = req.body.token // Stripe charge token
   var CENTS_PRICE = req.body.price // Stripe price in cents
   var CONNECTED_ID = req.body.stripeId // Stripe Connect platform user ID
-
-  console.log('TOKEN>>>', TOKEN)
-  console.log('CENTS_PRICE>>>', CENTS_PRICE)
-  console.log('CONNECTED_ID>>>', CONNECTED_ID)
+  var APP_FEE = req.body.storegrafiFee
 
 
   var charge = stripe.charges.create({
@@ -80,7 +99,7 @@ stripeRouter.post('/charge', function(req, res){
     currency: "usd",
     source: TOKEN,
     description: "Storegrafi order",
-    application_fee: 100, // Platform fee in cents (change to 2%)
+    application_fee: APP_FEE, // Platform fee in cents (2%)
   	}, {stripe_account: CONNECTED_ID},
 
   	function(err, charge) {

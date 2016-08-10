@@ -65,6 +65,7 @@ const PhotoBlock = React.createClass ({
 	_handleStripeCheckout:function(e){
 		var self = this;
 		var priceInCents = Math.floor(this.props.product.get('price') * 100)
+		var storegrafiFee = priceInCents * 0.02 // (App's 2% fee)
 		
 		var handler = StripeCheckout.configure({
 		    key: self.props.product.get('stripePubKey'),
@@ -84,6 +85,7 @@ const PhotoBlock = React.createClass ({
 						token: token.id,
 						price: priceInCents,
 						stripeId: self.props.product.get('stripeId'),
+						storegrafiFee: storegrafiFee,
 					}
 				})
 		    }

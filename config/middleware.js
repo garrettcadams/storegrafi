@@ -25,8 +25,19 @@ const cookifyUser = function(req,res,next) {
   }
 }
 
+const cookifyEnv = function(req,res,next) {
+  if (process.env.NODE_ENV === 'development') {
+    res.cookie(global.PROJECT_NAME + '_ENV','dev')
+  }
+  else {
+    res.cookie(global.PROJECT_NAME + '_ENV','prod')
+  }
+  next()
+}
+
 module.exports = {
   checkAuth: checkAuth,
   errorHandler: errorHandler,
-  cookifyUser: cookifyUser
+  cookifyUser: cookifyUser,
+  cookifyEnv: cookifyEnv
 }

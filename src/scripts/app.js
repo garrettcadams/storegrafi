@@ -2,7 +2,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import Backbone from 'backbone'
-import init from './init'
+import {init} from './utils'
 
 // import views
 import DashboardView from './views/DashboardView'
@@ -17,7 +17,7 @@ import StripeConfirmation from './views/StripeConfirmation'
 //import models
 import {User} from './models/models'
 
-console.log('YOLO175')
+console.log('YOLO175') // inside joke
 
 const app = function() {
   const AppRouter = Backbone.Router.extend ({
