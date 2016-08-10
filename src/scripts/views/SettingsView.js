@@ -9,6 +9,11 @@ import {User, ProductModel, ProductCollection} from '../models/models'
 import ACTIONS from '../actions.js'
 import IG_STORE from '../store.js'
 
+import {findCookie} from './utils'
+
+// cookie with environment variable
+var environment = findCookie(app_name + '_ENV')
+
 
 const SettingsView = React.createClass ({
 
@@ -27,6 +32,17 @@ const SettingsView = React.createClass ({
 	},
 
 	render: function(){
+
+		// set proper redirect URL for Stripe based on ENV
+
+		if (environment === 'dev') {
+			var stripeRedirectUri = 'https://connect.stripe.com/oauth/authorize?response_type=code&client_id=ca_8wmH1pUZdKdUGfgcQIMNVXjluE1LTFfK&scope=read_write'
+		}
+
+		else if (environment === 'prod') {
+			var stripeRedirectUri = 'https://connect.stripe.com/oauth/authorize?response_type=code&client_id=ca_8wmH1pUZdKdUGfgcQIMNVXjluE1LTFfK&scope=read_write'
+		}
+
 		return(
 
 
@@ -41,7 +57,7 @@ const SettingsView = React.createClass ({
 
 						<div id="app-view" className="medium-9 columns">
 							<h2>Setup payments for your store:</h2>
-							<a className="stripe-connect button" href="https://connect.stripe.com/oauth/authorize?response_type=code&client_id=ca_8wmH1pUZdKdUGfgcQIMNVXjluE1LTFfK&scope=read_write">Connect with Stripe</a>
+							<a className="stripe-connect button" href={stripeRedirectUri}>Connect with Stripe</a>
 						</div>
 					</div>
 				</div>
