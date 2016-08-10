@@ -13,11 +13,16 @@ var app_name = findCookie('tiy_full_stack_app_name')
 var environment = findCookie(app_name + '_ENV')
 // Intializing hello function for Instagram authorization
 hello.init({
-        instagram : "34e9f619c5e3475492e7b2d75f2a9f26" // Instagram dev ID
-        // instagram : "bd6ad80d1a80435293503c16a2a29555" // Instagram live ID
+        instagram : "34e9f619c5e3475492e7b2d75f2a9f26" // Instagram dev Client ID
     },{
-        redirect_uri:'http://localhost:3000/#dashboard' // Local dev
-        // redirect_uri:'https://storegrafi.herokuapp.com/#dashboard' // Live redirect address
+        if (environment === 'dev') {
+            redirect_uri:'http://localhost:3000/#dashboard' // Local dev redirect URL
+        }
+
+        else {
+            redirect_uri:'https://storegrafi.herokuapp.com/#dashboard' // Live redirect address
+        }
+        
     });
 
 
