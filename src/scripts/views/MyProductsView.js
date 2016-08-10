@@ -8,13 +8,15 @@ import IG_STORE from '../store.js'
 
 const MyProductsView = React.createClass ({
 	
+	
 	getInitialState: function(){
 		return IG_STORE.getData()
 	},
 
 	componentWillMount: function(){
-			
+
 		ACTIONS.fetchUserProducts()
+
 		IG_STORE.on('updateContent', ()=>{
 			this.setState(IG_STORE.getData())
 		})
@@ -27,6 +29,28 @@ const MyProductsView = React.createClass ({
 	render: function(){
 		
 		return(
+
+				<div id="dashboard">
+					<div className="expanded row">
+						<div id="navigation" className="medium-3 columns">
+							<a id="logo" href="#dashboard">
+								<img src="../images/logo.png" alt="Storegrafi logo" />
+							</a>
+							<MainMenu />
+						</div>
+
+						<div id="app-view" className="medium-9 columns">
+							<ProductTable productColl={this.state.productColl} />
+						</div>
+					</div>
+				</div>
+			)
+	}
+})
+
+const ProductTable = React.createClass ({
+	render: function(){
+		return (
 				<div className="row">
 					<div className="medium-12 columns">
 						<table className="hover">
@@ -37,7 +61,7 @@ const MyProductsView = React.createClass ({
 									<th className="product-price">Product Price</th>
 								</tr>
 
-								{this.state.productColl.map((product, i)=><SingleProduct product={product} key={i}/>)}
+								{this.props.productColl.map((product, i)=><ProductRow product={product} key={i}/>)}
 							</tbody>
 						</table>
 					</div>
@@ -47,7 +71,7 @@ const MyProductsView = React.createClass ({
 })
 
 
-const SingleProduct = React.createClass ({
+const ProductRow = React.createClass ({
 	
 	_handleViewSwitch: function(){
 		location.hash = 'myproducts/' + this.props.product.id

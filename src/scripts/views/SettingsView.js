@@ -29,10 +29,23 @@ const SettingsView = React.createClass ({
 	render: function(){
 		return(
 
-				<div className="store-settings">
-					<h2>Setup payments for your store:</h2>
-					<a className="stripe-connect button" href="https://connect.stripe.com/oauth/authorize?response_type=code&client_id=ca_8wmH1pUZdKdUGfgcQIMNVXjluE1LTFfK&scope=read_write">Connect with Stripe</a>
+
+				<div id="dashboard">
+					<div className="expanded row">
+						<div id="navigation" className="medium-3 columns">
+							<a id="logo" href="#dashboard">
+								<img src="../images/logo.png" alt="Storegrafi logo" />
+							</a>
+							<MainMenu />
+						</div>
+
+						<div id="app-view" className="medium-9 columns">
+							<h2>Setup payments for your store:</h2>
+							<a className="stripe-connect button" href="https://connect.stripe.com/oauth/authorize?response_type=code&client_id=ca_8wmH1pUZdKdUGfgcQIMNVXjluE1LTFfK&scope=read_write">Connect with Stripe</a>
+						</div>
+					</div>
 				</div>
+
 			)
 	}
 })

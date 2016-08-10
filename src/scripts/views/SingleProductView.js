@@ -31,10 +31,22 @@ const SingleProductView = React.createClass ({
 	render: function(){
 	
 		return(
-				
-				<div id="myproducts-wrapper">
-					<ProductEditor singleProd={this.state.singleProd} />
+
+				<div id="dashboard">
+					<div className="expanded row">
+						<div id="navigation" className="medium-3 columns">
+							<a id="logo" href="#dashboard">
+								<img src="../images/logo.png" alt="Storegrafi logo" />
+							</a>
+							<MainMenu />
+						</div>
+
+						<div id="app-view" className="medium-9 columns">
+							<ProductEditor singleProd={this.state.singleProd} />
+						</div>
+					</div>
 				</div>
+
 			)
 	}
 })

@@ -11,6 +11,7 @@ const IG_STORE = _.extend(Backbone.Events, {
 		allPhotos: new InstaCollection(),
 		frontProductMod: new FrontProductModel(),
 		singleProd: new ProductModel(),
+		currentStore: ''
 	},
 
 	emitChange: function() {
@@ -34,10 +35,10 @@ const IG_STORE = _.extend(Backbone.Events, {
 	initialize: function(){
 		// Start listening (pub/sub) from the very get-go, so with any sync/update, emitChange
 		// function will fire
-		this.data.productColl.on('sync update', this.emitChange.bind(this))
-		this.data.allPhotos.on('sync update', this.emitChange.bind(this))
-		this.data.singleProd.on('sync update', this.emitChange.bind(this))
-		this.data.frontStoreColl.on('sync update', this.emitChange.bind(this))
+		this.data.productColl.on('sync update reset', this.emitChange.bind(this))
+		this.data.allPhotos.on('sync update reset', this.emitChange.bind(this))
+		this.data.singleProd.on('sync update reset', this.emitChange.bind(this))
+		this.data.frontStoreColl.on('sync update reset', this.emitChange.bind(this))
 	}
 })
 

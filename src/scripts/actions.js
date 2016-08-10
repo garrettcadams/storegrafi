@@ -10,11 +10,11 @@ import toastr from 'toastr'
 
 // Intializing hello function for Instagram authorization
 hello.init({
-        instagram : "34e9f619c5e3475492e7b2d75f2a9f26" // Instagram dev ID
-        // instagram : "bd6ad80d1a80435293503c16a2a29555" // Instagram live ID
+        // instagram : "34e9f619c5e3475492e7b2d75f2a9f26" // Instagram dev ID
+        instagram : "bd6ad80d1a80435293503c16a2a29555" // Instagram live ID
     },{
-        redirect_uri:'http://localhost:3000' // Local dev
-        // redirect_uri:'https://storegrafi.herokuapp.com/#dashboard' // Live redirect address
+        // redirect_uri:'http://localhost:3000' // Local dev
+        redirect_uri:'https://storegrafi.herokuapp.com/#dashboard' // Live redirect address
     });
 
 
@@ -68,10 +68,12 @@ const ACTIONS = {
         let pModel = new ProductModel(productObj)
         pModel.save().then(
             (responseData) => {
-                toastr.success(`Instagram Record: <${productObj.igId}> saved!`)
+                toastr.success(`Instagram product saved!`)
+                
                 console.log(responseData)
 
                 IG_STORE.data.productColl.add(pModel)
+                console.log('YOUR COLLECTION IS NOW>>>>', IG_STORE.data.productColl)
             },
             (err) => {
                 toastr.error('oh noes! no products for you...')
@@ -88,22 +90,21 @@ const ACTIONS = {
 
     deleteProduct: function(igIdVal){
         console.log(igIdVal)
-        let singleProduct = IG_STORE.data.productColl.find({igId: igIdVal})
+        let singleProduct = IG_STORE.data.productColl.find({instaId: igIdVal})
         console.log('Product to be deleted', singleProduct)
         singleProduct.destroy().then(
 
             (responseData) => {
-                toastr.info(`Instagram Record: <${singleProduct.get('igId')}> deleted!`)
+                toastr.info(`Instagram Record: <${singleProduct.get('instaId')}> deleted!`)
                 console.log(responseData)
-                console.log('new collection after delete:', IG_STORE.data.productColl)
             },
             (err) => {
-                toastr.error('oh noes! no products for you...')
+                toastr.error('Could not delete, sorry!')
                 console.log(err)
             })
     },
 
-    fetchUserProducts: function(){
+    fetchUserProducts: function(userName){
         IG_STORE.data.productColl.fetch().then(
             (responseData) => {
                 toastr.info('successful fetch!')
@@ -120,17 +121,17 @@ const ACTIONS = {
         // Fetch Instagram product collection and set models to STORE
 
         IG_STORE.data.frontStoreColl.fetch({
-            url: '/api/store/' + userName,
-            // reset: true,
+            url: '/api/store/' + userName
         }).then(
             (responseData) => {
                 toastr.info('successful fetch!')
-                console.log('RESPONSE DATA >>>', responseData)
+                console.log('COLL FETCH RESPONSE DATA >>>', responseData)
             },
             (err) => {
                 toastr.error('couldnt fetch public store products')
                 console.log(err)
             })
+        console.log('COLLECTION AFTER RESET AND FETCH:', IG_STORE.data.frontStoreColl)
     },
 
     fetchSingleProduct: function(id){

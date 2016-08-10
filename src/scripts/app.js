@@ -12,11 +12,12 @@ import MyProductsView from './views/MyProductsView'
 import SingleProductView from './views/SingleProductView'
 import UserFrontStore from './views/UserFrontStore'
 import SettingsView from './views/SettingsView'
+import StripeConfirmation from './views/StripeConfirmation'
 
 //import models
 import {User} from './models/models'
 
-// console.log('YOLO173')
+console.log('YOLO175')
 
 const app = function() {
   const AppRouter = Backbone.Router.extend ({
@@ -49,7 +50,7 @@ const app = function() {
     },
 
     handleStoreSettings: function(){
-        ReactDOM.render(<DashboardView />, document.querySelector('.container'))
+        ReactDOM.render(<SettingsView />, document.querySelector('.container'))
     },
 
   	handleDashboard: function(){
@@ -57,18 +58,15 @@ const app = function() {
   	},
 
   	handleMyProducts: function(){
-  		  ReactDOM.render(<DashboardView />, document.querySelector('.container'))
+  		  ReactDOM.render(<MyProductsView />, document.querySelector('.container'))
   	},
 
   	handleSingleView: function(id){
-  		  ReactDOM.render(<DashboardView id={id} />, document.querySelector('.container'))
-        // ReactDOM.render(<SingleProductView id={id} />, document.querySelector('.container'))
+  		  ReactDOM.render(<SingleProductView id={id} />, document.querySelector('.container'))
   	},
 
     handleStripeConfirm: function(params){
-      console.log(params)
-        ReactDOM.render(<DashboardView params={params} />, document.querySelector('.container'))
-        // ReactDOM.render(<SingleProductView id={id} />, document.querySelector('.container'))
+        ReactDOM.render(<StripeConfirmation params={params} />, document.querySelector('.container'))
     },
 
     handleFrontStore: function(userName){

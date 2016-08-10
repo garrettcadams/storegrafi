@@ -21,7 +21,7 @@ const StripeConfirmation = React.createClass ({
 	},
 
 	_getAuthCode: function(){
-		var code = parseParamString(this.props.paramString).code
+		var code = parseParamString(this.props.params).code
 		console.log('code >>>',code)
 		$.getJSON('/stripe/code',{code:code}).then(function(resp){
 			console.log(resp)
@@ -37,9 +37,21 @@ const StripeConfirmation = React.createClass ({
 		
 		return(
 
-				<div className="store-settings">
-					<h2>You've successfully connected!</h2>
+				<div id="dashboard">
+					<div className="expanded row">
+						<div id="navigation" className="medium-3 columns">
+							<a id="logo" href="#dashboard">
+								<img src="../images/logo.png" alt="Storegrafi logo" />
+							</a>
+							<MainMenu />
+						</div>
+
+						<div id="app-view" className="medium-9 columns">
+							<h2>You've successfully connected!</h2>
+						</div>
+					</div>
 				</div>
+
 			)
 	}
 })

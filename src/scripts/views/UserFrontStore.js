@@ -12,15 +12,23 @@ const UserFrontStore = React.createClass ({
 	
 	getInitialState: function(){
 		return IG_STORE.getData()
+
 	},
 
 	componentWillMount: function(){
-			
+	
 		ACTIONS.fetchFrontStoreProducts(this.props.userName)
 		
 		IG_STORE.on('updateContent', ()=>{
 			this.setState(IG_STORE.getData())
 		})
+
+	},
+
+	componentWillReceiveProps: function(nextProps){
+		
+		ACTIONS.fetchFrontStoreProducts(nextProps.userName)
+	
 	},
 
 	componentWillUnmount: function() {
@@ -29,11 +37,10 @@ const UserFrontStore = React.createClass ({
 
 	render: function(){
 
-		console.log('front store collection >>>>', this.state.frontStoreColl)
-		
 		return(
 
 				<div id="front-store">
+						<h1>Your store</h1>
 						<FrontStoreContainer myProducts={this.state.frontStoreColl} />
 				</div>
 
@@ -46,7 +53,7 @@ const FrontStoreContainer = React.createClass ({
 	render: function(){
 		
 		return(
-				<div className="row small-up-3 small-collapse">
+				<div className="row small-up-1 medium-up-3 small-collapse">
 					{this.props.myProducts.map((product, i)=> <PhotoBlock product={product} key={i}/> )}
 				</div>
 			)
@@ -84,8 +91,8 @@ const PhotoBlock = React.createClass ({
 
 		//Open Checkout with further options:
 	    handler.open({
-	      name: this.props.product.get('userName'),
-	      description: this.props.product.get('title'),
+	      name: self.props.product.get('userName'),
+	      description: self.props.product.get('title'),
 	      amount: priceInCents,
 	    })
 
@@ -99,13 +106,12 @@ const PhotoBlock = React.createClass ({
 
 	render: function(){
 
-		console.log('PRODUCT>>',this.props.product)
-
 		return (
 				<div className="column">
 					<div className="photo-block">
 						<img src={this.props.product.get('imageUrl')} />
-						<button onClick={this._handleStripeCheckout} className="button stripe">Buy Now</button>
+						<p>{this.props.product.get('description')}</p>
+						<button onClick={this._handleStripeCheckout} className="button stripe">Buy now for ${this.props.product.get('price')}</button>
 
 					</div>
 					

@@ -21,6 +21,7 @@ const DashboardView = React.createClass ({
 	},
 
 	componentWillMount: function(){
+
 		IG_STORE.on('updateContent', ()=>{
 			this.setState(IG_STORE.getData())
 		})
@@ -34,28 +35,6 @@ const DashboardView = React.createClass ({
 
 		console.log('hitting DASHBOARD...')
 
-		var currentView = ''
-
-		if(location.hash === '#dashboard') {
-			currentView = <InstaConnect productColl={this.state.productColl} allPhotos={this.state.allPhotos} />
-		}
-
-		if(location.hash === '#myproducts'){
-			currentView = <MyProductsView />
-		}
-
-		if(location.hash === '#myproducts/' + this.props.id){
-			currentView = <SingleProductView id={this.props.id} />
-		}
-
-		if(location.hash === '#settings'){
-			currentView = <SettingsView />
-		}
-
-		if(location.hash === '#confirmStripe?' + this.props.params ) {
-			currentView = <StripeConfirmation paramString={this.props.params} />
-		}
-
 		return(
 				<div id="dashboard">
 					<div className="expanded row">
@@ -67,7 +46,7 @@ const DashboardView = React.createClass ({
 						</div>
 
 						<div id="app-view" className="medium-9 columns">
-							{currentView}
+							<InstaConnect productColl={this.state.productColl} allPhotos={this.state.allPhotos} />
 						</div>
 					</div>
 				</div>
@@ -111,7 +90,6 @@ var PhotoContainer = React.createClass ({
 		return (
 			<div className="row small-up-1 medium-up-2 large-up-3">
 				{this.props.allPhotos.map((photo, i)=><SinglePhoto singlePhoto={photo} key={i} />)}
-				<button className="button" onClick={this._handleSave}>Save and continue</button>
 			</div>
 		)
 	}

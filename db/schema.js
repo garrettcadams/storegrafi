@@ -34,7 +34,7 @@ const productSchema = new Schema({
 	imageUrl: {type: String},
   likesCount: {type: Number},
 	tags: {type: [String], default: []},
-  instaId: {type: [String], default: []},
+  instaId: {type: String},
 	userId: {type: String, required: true},
   userName: {type: String, required: true},
   stripePubKey: { type: String},

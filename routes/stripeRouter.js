@@ -5,8 +5,8 @@ let request = require('request')
 
 const stripeRouter = Router()
 
-var CLIENT_ID = 'enter production id here'
-var API_KEY = 'i dunno if this is the asame or not'
+var CLIENT_ID = 'enter production id here' // Stripe Connect client ID
+var API_KEY = 'i dunno if this is the asame or not' // Stripe secret API Key
 
 if (process.env.NODE_ENV === "development") {
 	CLIENT_ID = 'ca_8wmH1pUZdKdUGfgcQIMNVXjluE1LTFfK'
@@ -14,6 +14,7 @@ if (process.env.NODE_ENV === "development") {
 }
 
 stripeRouter.get('/code', function(req,res) {
+	console.log('YOUR CURRENT CLIENT_ID KEY>>>', CLIENT_ID)
 	console.log(req.query)
 	let code = req.query.code
 
@@ -65,9 +66,9 @@ stripeRouter.post('/charge', function(req, res){
 	
   console.log('hitting POST route on Stripe ROUTER...')
   
-  var TOKEN = req.body.token
-  var CENTS_PRICE = req.body.price
-  var CONNECTED_ID = req.body.stripeId
+  var TOKEN = req.body.token // Stripe charge token
+  var CENTS_PRICE = req.body.price // Stripe price in cents
+  var CONNECTED_ID = req.body.stripeId // Stripe Connect platform user ID
 
   console.log('TOKEN>>>', TOKEN)
   console.log('CENTS_PRICE>>>', CENTS_PRICE)
@@ -79,7 +80,7 @@ stripeRouter.post('/charge', function(req, res){
     currency: "usd",
     source: TOKEN,
     description: "Storegrafi order",
-    application_fee: 100,
+    application_fee: 100, // Platform fee in cents (change to 2%)
   	}, {stripe_account: CONNECTED_ID},
 
   	function(err, charge) {
