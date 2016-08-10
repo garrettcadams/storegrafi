@@ -11,19 +11,24 @@ import {findCookie} from './utils'
 
 var app_name = findCookie('tiy_full_stack_app_name')
 var environment = findCookie(app_name + '_ENV')
-// Intializing hello function for Instagram authorization
+
+// Setting proper redirects based on either testing or production environment
+if(environment === 'dev'){
+    var REDIRECT_URI = 'http://localhost:3000/#dashboard'
+}
+
+else if(environment === 'prod') {
+    var REDIRECT_URI = 'https://storegrafi.herokuapp.com/#dashboard'
+}
+
+// Intializing hello.js for Instagram OAUTH
 hello.init({
         instagram : "34e9f619c5e3475492e7b2d75f2a9f26" // Instagram dev Client ID
     },{
-        if (environment === 'dev') {
-            redirect_uri:'http://localhost:3000/#dashboard' // Local dev redirect URL
-        }
+        redirect_uri: REDIRECT_URI
+})
 
-        else {
-            redirect_uri:'https://storegrafi.herokuapp.com/#dashboard' // Live redirect address
-        }
-        
-    });
+console.log('YOUR CURRENT INSTA REDIRECT URI IS >>>', REDIRECT_URI)
 
 
 const ACTIONS = {
