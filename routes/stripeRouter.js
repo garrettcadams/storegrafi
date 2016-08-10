@@ -5,8 +5,8 @@ let request = require('request')
 
 const stripeRouter = Router()
 
-var CLIENT_ID = 'enter production id here' // Stripe Connect client ID
-var API_KEY = 'i dunno if this is the asame or not' // Stripe secret API Key
+var CLIENT_ID = 'ca_8wmH1pUZdKdUGfgcQIMNVXjluE1LTFfK' // Stripe Connect client ID
+var API_KEY = 'sk_test_gtePgSycICsHqbcB5aC35yfC' // Stripe secret API Key
 
 if (process.env.NODE_ENV === "development") {
 	CLIENT_ID = 'ca_8wmH1pUZdKdUGfgcQIMNVXjluE1LTFfK'
