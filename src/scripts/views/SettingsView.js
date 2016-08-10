@@ -41,7 +41,7 @@ const SettingsView = React.createClass ({
 		}
 
 		else if (environment === 'prod') {
-			var stripeRedirectUri = 'https://connect.stripe.com/oauth/authorize?response_type=code&client_id=ca_8wmH1pUZdKdUGfgcQIMNVXjluE1LTFfK&scope=read_write'
+			var stripeRedirectUri = 'https://connect.stripe.com/oauth/authorize?response_type=code&client_id=ca_8wmHRCgyot68xzsAQZF5qorY0qV1pCvP&scope=read_write'
 		}
 
 		return(
