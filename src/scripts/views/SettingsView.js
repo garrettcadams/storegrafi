@@ -9,9 +9,10 @@ import {User, ProductModel, ProductCollection} from '../models/models'
 import ACTIONS from '../actions.js'
 import IG_STORE from '../store.js'
 
-import {findCookie} from './utils'
+import {findCookie} from '../utils'
 
-// cookie with environment variable
+// getting cookie with environment variable value
+var app_name = findCookie('tiy_full_stack_app_name')
 var environment = findCookie(app_name + '_ENV')
 
 
