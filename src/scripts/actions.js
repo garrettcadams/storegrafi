@@ -28,14 +28,9 @@ hello.init({
         redirect_uri: REDIRECT_URI
 })
 
-console.log('YOUR CURRENT INSTA REDIRECT URI IS >>>', REDIRECT_URI)
-
-
 const ACTIONS = {
 
-    //WE WANT TO LOG THE USER IN IMMEDIATELY AFTER THEY REGISTER (AS LONG AS THEY REGISTER SUCCESFULLY) THE FIRST METHOD REGISTERS AND THE SECOND LOGS THEM IN
-    //.then takes two callback functions, both of these methods use that to create either a 'success' function or a 'failure' function
-    registerUser: function(userObj) { //input name doesn't actually matter, we just named it the same as the object that is getting passsed in for our own peace of mind
+    registerUser: function(userObj) { 
         User.register(userObj).then(
             (responseData) => {
                 ACTIONS.logUserIn(userObj.email, userObj.password)
