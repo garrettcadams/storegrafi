@@ -129,24 +129,6 @@ const ACTIONS = {
             })
     },
 
-    fetchFrontStoreProducts: function(userName){
-
-        // Fetch Instagram product collection and set models to STORE
-
-        IG_STORE.data.frontStoreColl.fetch({
-            url: '/api/store/' + userName
-        }).then(
-            (responseData) => {
-                toastr.info('successful fetch!')
-                console.log('COLL FETCH RESPONSE DATA >>>', responseData)
-            },
-            (err) => {
-                toastr.error('couldnt fetch public store products')
-                console.log(err)
-            })
-        console.log('COLLECTION AFTER RESET AND FETCH:', IG_STORE.data.frontStoreColl)
-    },
-
     fetchSingleProduct: function(id){
         console.log('id from url', id)
         IG_STORE.data.singleProd.fetch({
@@ -162,7 +144,41 @@ const ACTIONS = {
             })
     },
 
+    fetchFrontStoreProducts: function(userName){
+
+        // Fetch Instagram product collection and set models to STORE
+
+        IG_STORE.data.frontStoreColl.fetch({
+            url: '/api/store/' + userName
+        }).then(
+            (responseData) => {
+                toastr.info('successful fetch!')
+                console.log('COLL FETCH RESPONSE DATA >>>', responseData)
+            },
+            (err) => {
+                toastr.error('couldnt fetch public store products')
+                console.log(err)
+            })
+    },
+
+    fetchOneStoreProduct: function(productId){
+        console.log('FETCH ONE PRODUCTID >>>', productId)
+
+       IG_STORE.data.frontProductMod.fetch({
+            url: '/api/products/' + productId
+       }).then(
+            (responseData) => {
+                toastr.info('single product fetched!')
+                console.log(responseData)
+            },
+            (err) => {
+                toastr.error('oh noes! no product for you...')
+                console.log(err)
+            })
+
        
+    },    
+
     profileHandler: function(r){
         var profile = document.getElementById('profile');
 

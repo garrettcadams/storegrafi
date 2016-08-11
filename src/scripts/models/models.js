@@ -13,6 +13,8 @@ const ProductCollection = Backbone.Collection.extend({
 })
 
 const FrontProductModel = Backbone.Model.extend({
+	url: '/api/products',
+	idAttribute: '_id'
 })
 
 const FrontStoreCollection = Backbone.Collection.extend({

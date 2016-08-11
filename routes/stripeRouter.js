@@ -1,3 +1,13 @@
+let Router = require('express').Router
+let helpers = require('../config/helpers.js')
+
+let User = require('../db/schema.js').User
+let Product = require('../db/schema.js').Product
+
+let request = require('request')
+let secrets = require('../config/secrets')
+
+
 // Set Stripe test keys if we are in localhost test environment
 if (process.env.NODE_ENV === "development") {
 	var CLIENT_ID = secrets.CLIENT_ID
@@ -10,15 +20,7 @@ else {
 	var SECRET_KEY = process.env.SECRET_KEY
 }
 
-let Router = require('express').Router
-let helpers = require('../config/helpers.js')
-
-let User = require('../db/schema.js').User
-let Product = require('../db/schema.js').Product
-
 let stripe = require('stripe')(SECRET_KEY)
-let request = require('request')
-let secrets = require('../config/secrets')
 
 const stripeRouter = Router()
 

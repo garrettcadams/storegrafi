@@ -13,6 +13,7 @@ import SingleProductView from './views/SingleProductView'
 import UserFrontStore from './views/UserFrontStore'
 import SettingsView from './views/SettingsView'
 import StripeConfirmation from './views/StripeConfirmation'
+import UserFrontProduct from './views/UserFrontProduct'
 
 //import models
 import {User} from './models/models'
@@ -30,7 +31,7 @@ const app = function() {
       'settings':'handleStoreSettings',
       'confirmStripe?:params': 'handleStripeConfirm',
       'u/:userName':'handleFrontStore',
-      // 'u/:username/:id':'handleFrontProduct',
+      'u/:userName/:productId':'handleFrontProduct',
   		'*redirect':'handleRedirect'
   	},
 
@@ -71,6 +72,10 @@ const app = function() {
 
     handleFrontStore: function(userName){
         ReactDOM.render(<UserFrontStore userName={userName} />, document.querySelector('.container'))
+    },
+
+    handleFrontProduct: function(userName, productId){
+        ReactDOM.render(<UserFrontProduct userName={userName} productId={productId} />, document.querySelector('.container'))
     },
 
 

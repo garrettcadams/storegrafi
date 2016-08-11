@@ -8,7 +8,7 @@ import IG_STORE from '../store.js'
 import $ from 'jquery'
 
 
-const UserFrontStore = React.createClass ({
+const UserFrontProduct = React.createClass ({
 	
 	getInitialState: function(){
 		return IG_STORE.getData()
@@ -17,7 +17,7 @@ const UserFrontStore = React.createClass ({
 
 	componentWillMount: function(){
 	
-		ACTIONS.fetchFrontStoreProducts(this.props.userName)
+		ACTIONS.fetchOneStoreProduct(this.props.productId)
 		
 		IG_STORE.on('updateContent', ()=>{
 			this.setState(IG_STORE.getData())
@@ -25,42 +25,24 @@ const UserFrontStore = React.createClass ({
 
 	},
 
-	componentWillReceiveProps: function(nextProps){
-		
-		ACTIONS.fetchFrontStoreProducts(nextProps.userName)
-	
-	},
-
 	componentWillUnmount: function() {
 		IG_STORE.off('updateContent')
 	},
 
-	render: function(){
+	render: function() {
 
 		return(
 
 				<div id="front-store">
-						<h1>Your store</h1>
-						<FrontStoreContainer myProducts={this.state.frontStoreColl} />
+					<h1>Your single product</h1>
+					<ProductContainer product={this.state.frontProductMod} />
 				</div>
 
 			)
 	}
 })
 
-const FrontStoreContainer = React.createClass ({
-	
-	render: function(){
-		
-		return(
-				<div className="row small-up-3 medium-up-3 small-collapse">
-					{this.props.myProducts.map((product, i)=> <PhotoBlock product={product} key={i}/> )}
-				</div>
-			)
-	}
-})
-
-const PhotoBlock = React.createClass ({
+const ProductContainer = React.createClass ({
 	
 	_handleStripeCheckout:function(e){
 		var self = this;
@@ -106,26 +88,18 @@ const PhotoBlock = React.createClass ({
 		  });
 	},
 
-	_handleSingleProduct: function(){
-		location.hash = 'u/' + this.props.product.get('userName') + '/' + this.props.product.get('_id')
-	},
-
 	render: function(){
-
-		console.log('PRODUCT PROPS>>>', this.props.product)
-
+		console.log('PROPS ON SINGLE PRODUCT>>>', this.props.product)
 		return (
-				<div className="column">
-					<div className="photo-block">
-						<a onClick={this._handleSingleProduct}>
-							<img src={this.props.product.get('imageUrl')} />
-						</a>
-						
-					</div>
-					
+				<div className="product-wrapper">
+					<h2>{this.props.product.get('title')}</h2>
+					<img src={this.props.product.get('imageUrl')} />
+					<p>{this.props.product.get('description')}</p>
+					<a onClick={this._handleStripeCheckout} className="button">Buy now for ${this.props.product.get('price')}</a>
 				</div>
 			)
 	}
 })
 
-export default UserFrontStore
+
+export default UserFrontProduct

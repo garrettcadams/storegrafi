@@ -39,6 +39,9 @@ const IG_STORE = _.extend(Backbone.Events, {
 		this.data.allPhotos.on('sync update reset', this.emitChange.bind(this))
 		this.data.singleProd.on('sync update reset', this.emitChange.bind(this))
 		this.data.frontStoreColl.on('sync update reset', this.emitChange.bind(this))
+		this.data.frontProductMod.on('sync update reset', this.emitChange.bind(this))
+
+
 	}
 })
 
