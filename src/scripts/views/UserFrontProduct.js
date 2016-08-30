@@ -33,8 +33,8 @@ const UserFrontProduct = React.createClass ({
 
 		return(
 
-				<div className="row">
-					<div className="large-6 large-centered columns">
+				<div className="row small-collapse">
+					<div className="small-12 small-centered large-6 large-centered columns">
 						<h1>Single Product View</h1>
 						<ProductContainer product={this.state.frontProductMod} />
 					</div>
@@ -96,7 +96,7 @@ const ProductContainer = React.createClass ({
 		return (
 				<div className="product-wrapper">
 					<h2>{this.props.product.get('title')}</h2>
-					<img src={this.props.product.get('imageUrl')} />
+					<img className="featured-picture" src={this.props.product.get('imageUrl')} />
 					<p>{this.props.product.get('description')}</p>
 					<a onClick={this._handleStripeCheckout} className="button">Buy now for ${this.props.product.get('price')}</a>
 				</div>
