@@ -18,7 +18,7 @@ import UserFrontProduct from './views/UserFrontProduct'
 //import models
 import {User} from './models/models'
 
-console.log('YOLO175') // inside joke
+console.log('YOLO177') // inside joke
 
 const app = function() {
   const AppRouter = Backbone.Router.extend ({

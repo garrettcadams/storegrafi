@@ -33,9 +33,12 @@ const UserFrontProduct = React.createClass ({
 
 		return(
 
-				<div id="front-store">
-					<h1>Your single product</h1>
-					<ProductContainer product={this.state.frontProductMod} />
+				<div className="row">
+					<div className="large-6 large-centered columns">
+						<h1>Your single product</h1>
+						<ProductContainer product={this.state.frontProductMod} />
+					</div>
+
 				</div>
 
 			)
