@@ -7,11 +7,11 @@ const HomeView = React.createClass ({
 				<div id="home">
 
 					<div className="row expanded top-home-bar">
-						<div className="small-6 medium-8 large-8 columns">
-							<a className="home-logo"><img src="../images/home-logo.png" alt="Storegrafi logo" /></a>
+						<div className="small-12 medium-8 large-8 columns">
+							<a><img className="home-logo" src="../images/home-logo.png" alt="Storegrafi logo" /></a>
 						</div>
-						<div id="home-nav" className="small-6 medium-4 large-4 columns">
-							<div className="cta-links float-right">
+						<div id="home-nav" className="small-12 medium-4 large-4 columns">
+							<div className="cta-links">
 								<a className="button register" href="#register">Sign up for free</a>
 								<a className="login" href="#login">Log in</a>
 							</div>
@@ -20,7 +20,7 @@ const HomeView = React.createClass ({
 
 					<div id="hero">
 						<div className="row">
-							<div className="large-6 columns">
+							<div className="medium-8 large-6 columns">
 								<h1>The ecommerce platform for Instagram creators.</h1>
 								<p>Create an online store for free with the power of Instagram. No monthly charges or setup fees. <em>Ever</em>. Only pay a 5% transaction fee when you make a sale.</p>
 								<a className="button large" href="#register">Get started now</a>
