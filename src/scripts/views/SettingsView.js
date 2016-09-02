@@ -57,8 +57,19 @@ const SettingsView = React.createClass ({
 						</div>
 
 						<div id="app-view" className="medium-9 columns">
-							<h2>Setup payments for your store:</h2>
-							<a className="stripe-connect button" href={stripeRedirectUri}>Connect with Stripe</a>
+							<h2>Payment Settings</h2>
+							<p>Easily accept credit/debit cards with Stripe Payments:</p>
+							<ul>
+								<li>There are <strong>zero monthly or initial setup fees</strong> to create a Stripe account. You can create an account for free and in just a matter of minutes.</li>
+								<li>Stripe seamlessly integrates mobile payments so your Instagram visitors can buy things on the go without ever leaving your store.</li>
+								<li>The total transaction fee you'll pay when you make a successful sale is <strong>only 4.9% + $0.30</strong> (2.9% plus $0.30 Stripe fees + 2% Storegrafi fee).</li>
+								<li>After each successful sale, your money will be direct-deposited in your <em>own</em> bank account <strong>within 2 business days!</strong></li>
+								<li>Thousands of small and large companies use and trust Stripe to power commerce for their business.</li>
+
+							</ul>
+
+
+							<a className="stripe-connect" href={stripeRedirectUri}><img src="../images/blue-on-light.png" /></a>
 						</div>
 					</div>
 				</div>

@@ -47,7 +47,9 @@ const StripeConfirmation = React.createClass ({
 						</div>
 
 						<div id="app-view" className="medium-9 columns">
-							<h2>You've successfully connected!</h2>
+							<h2>Success!</h2>
+							<img className="stripe-success" src="../images/check-mark-icon.png" />
+							<p>You are all set up to receive payments with Stripe! Now you can share this public URL with others through your Instagram bio or anywhere else online: <strong>https://storegrafi.herokuapp.com/#u/ + yourUserNameHere</strong>. (i.e. https://storegrafi.herokuapp.com/#u/tomsbakedgoods)</p>
 						</div>
 					</div>
 				</div>

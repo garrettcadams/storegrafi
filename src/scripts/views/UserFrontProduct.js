@@ -32,14 +32,30 @@ const UserFrontProduct = React.createClass ({
 	render: function() {
 
 		return(
+			<div className="public-store-view public-single-product">
+
+				<div className="row ">
+					<div className="small-12 small-centered medium-12 medium-centered large-6 large-centered columns">
+						<img className="placeholder-store-icon" src='../images/default-store-icon.jpg' />
+						<h1 className="store-name">{this.props.userName}</h1>
+						
+					</div>
+				</div>
 
 				<div className="row small-collapse">
-					<div className="small-12 small-centered large-6 large-centered columns">
-						<h1>Single Product View</h1>
+					<div className="small-12 small-centered medium-12 medium-centered large-6 large-centered columns">
 						<ProductContainer product={this.state.frontProductMod} />
 					</div>
 
 				</div>
+
+				<div className="row">
+					<div className="large-12 columns">
+						<p className="text-center powered-by">Powered by Storegrafi</p>
+					</div>
+				</div>
+				
+			</div>
 
 			)
 	}
@@ -95,10 +111,17 @@ const ProductContainer = React.createClass ({
 		console.log('PROPS ON SINGLE PRODUCT>>>', this.props.product)
 		return (
 				<div className="product-wrapper">
-					<h2>{this.props.product.get('title')}</h2>
 					<img className="featured-picture" src={this.props.product.get('imageUrl')} />
-					<p>{this.props.product.get('description')}</p>
-					<a onClick={this._handleStripeCheckout} className="button">Buy now for ${this.props.product.get('price')}</a>
+
+					<div className="row">
+						<div className="large-12 columns">
+							<h2 className="product-title">{this.props.product.get('title')}</h2>
+							<p className="product-description">{this.props.product.get('description')}</p>
+							<a onClick={this._handleStripeCheckout} className="button buy-now">Buy now for ${this.props.product.get('price')}</a>
+							<img className="secure-subheading centered-image" src='../images/cta-subheading.jpg' />
+						</div>
+					</div>
+					
 				</div>
 			)
 	}

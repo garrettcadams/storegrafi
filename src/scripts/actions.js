@@ -36,9 +36,9 @@ const ACTIONS = {
                 ACTIONS.logUserIn(userObj.email, userObj.password)
                 location.hash = 'dashboard'
             },
-            (error) => {
+            (err) => {
                 toastr.error('There was an error during registration.')
-                console.log(error)
+                console.log(err)
             }
         )
 
@@ -51,9 +51,9 @@ const ACTIONS = {
                 console.log('user logged in>>', responseData)
                 location.hash = 'dashboard'
             },
-            (error) => {
-                toastr.error('Sorry, try again!')
-                console.log(error)
+            (err) => {
+                toastr.error('Sorry, there was an error. Try again?')
+                console.log('ERROR >>>', err)
             }
         )
     },
@@ -61,13 +61,13 @@ const ACTIONS = {
     logUserOut: function() { 
         User.logout().then(
             (responseData) => {
-                toastr.success(`user logged out!`)
+                console.log('User logged out successfully.')
                 console.log(responseData)
                 location.hash = 'login'
             },
-            (error) => {
-                toastr.error('Sorry, there was a problem.')
-                console.log(error)
+            (err) => {
+                toastr.error('Sorry, there was an error. Try again?')
+                console.log('ERROR >>>', err)
             }
         )
     },
@@ -76,7 +76,7 @@ const ACTIONS = {
         let pModel = new ProductModel(productObj)
         pModel.save().then(
             (responseData) => {
-                toastr.success(`Instagram product saved!`)
+                toastr.success(`New Instagram product added!`)
                 
                 console.log(responseData)
 
@@ -84,8 +84,8 @@ const ACTIONS = {
                 console.log('YOUR COLLECTION IS NOW>>>>', IG_STORE.data.productColl)
             },
             (err) => {
-                toastr.error('oh noes! no products for you...')
-                console.log(err)
+                toastr.error('Sorry, there was an error. Try again?')
+                console.log('ERROR >>>', err)
             })
     },
 
@@ -103,23 +103,23 @@ const ACTIONS = {
         singleProduct.destroy().then(
 
             (responseData) => {
-                toastr.info(`Instagram Record: <${singleProduct.get('instaId')}> deleted!`)
+                toastr.info(`Your Instagram product was removed.`)
                 console.log(responseData)
             },
             (err) => {
-                toastr.error('Could not delete, sorry!')
-                console.log(err)
+                toastr.error('Sorry, there was an error. Try again?')
+                console.log('ERROR >>>', err)
             })
     },
 
     fetchUserProducts: function(userName){
         IG_STORE.data.productColl.fetch().then(
             (responseData) => {
-                toastr.info('successful fetch!')
+                console.log('SUCCESS! Instagram products fetched.')
                 console.log(responseData)
             },
             (err) => {
-                toastr.error('couldnt fetch user insta products')
+                toastr.error('Sorry, there was an error. Try again?')
                 console.log(err)
             })
     },
@@ -134,7 +134,7 @@ const ACTIONS = {
                 console.log(responseData)
             },
             (err) => {
-                toastr.error('oh noes! no product for you...')
+                toastr.error('Sorry, there was an error. Try again?')
                 console.log(err)
             })
     },
@@ -147,11 +147,10 @@ const ACTIONS = {
             url: '/api/store/' + userName
         }).then(
             (responseData) => {
-                toastr.info('successful fetch!')
-                console.log('COLL FETCH RESPONSE DATA >>>', responseData)
+                console.log('SUCCESS! User Instagram products successfully fetched.')
             },
             (err) => {
-                toastr.error('couldnt fetch public store products')
+                toastr.error('Sorry, there was an error. Try again?')
                 console.log(err)
             })
     },
@@ -163,11 +162,11 @@ const ACTIONS = {
             url: '/api/products/' + productId
        }).then(
             (responseData) => {
-                toastr.info('single product fetched!')
+                console.log('SUCCESS! User front store single product fetched.')
                 console.log(responseData)
             },
             (err) => {
-                toastr.error('oh noes! no product for you...')
+                console.log('ERROR! User single product could not be fetched.')
                 console.log(err)
             })
 

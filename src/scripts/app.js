@@ -8,6 +8,7 @@ import {init} from './utils'
 import DashboardView from './views/DashboardView'
 import HomeView from './views/HomeView'
 import LoginView from './views/LoginView'
+import RegisterView from './views/RegisterView'
 import MyProductsView from './views/MyProductsView'
 import SingleProductView from './views/SingleProductView'
 import UserFrontStore from './views/UserFrontStore'
@@ -18,7 +19,7 @@ import UserFrontProduct from './views/UserFrontProduct'
 //import models
 import {User} from './models/models'
 
-console.log('YOLO177') // inside joke
+console.log('YOLO179') // inside joke
 
 const app = function() {
   const AppRouter = Backbone.Router.extend ({
@@ -26,6 +27,7 @@ const app = function() {
   		'home':'handleHome',
   		'dashboard':'handleDashboard',
   		'login':'handleLogin',
+      'register':'handleRegister',
   		'myproducts':'handleMyProducts',
   		'myproducts/:id':'handleSingleView',
       'settings':'handleStoreSettings',
@@ -39,6 +41,17 @@ const app = function() {
 
         if(!User.getCurrentUser()){
           ReactDOM.render(<LoginView />, document.querySelector('.container'))
+        }
+
+        else {
+           location.hash = 'dashboard'
+        }  
+    },
+
+    handleRegister: function(){
+
+        if(!User.getCurrentUser()){
+          ReactDOM.render(<RegisterView />, document.querySelector('.container'))
         }
 
         else {

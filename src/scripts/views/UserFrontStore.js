@@ -39,9 +39,24 @@ const UserFrontStore = React.createClass ({
 
 		return(
 
-				<div id="front-store">
-						<h1>Your store</h1>
+				<div className="public-store-view">
+						<div className="row expanded border-bottom">
+							<div className="large-12 large-centered columns">
+								<img className="placeholder-store-icon" src='../images/default-store-icon.jpg' />
+								<h1 className="store-name">{this.props.userName}</h1>
+								<div className="store-description">
+									<p>Welcome to our Instagram store! Tap to buy any of the products below.</p>
+								</div>
+							</div>
+						</div>
+						
 						<FrontStoreContainer myProducts={this.state.frontStoreColl} />
+
+						<div className="row">
+							<div className="large-12 columns">
+								<p className="text-center powered-by">Powered by Storegrafi</p>
+							</div>
+						</div>
 				</div>
 
 			)
